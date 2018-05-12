@@ -11,10 +11,6 @@
         android:id="@+id/navigation_donations"
         android:icon="@drawable/ic_payment_black_24dp"
         android:title="@string/title_donations" />
-    <item
-        android:id="@+id/navigation_statistics"
-        android:icon="@drawable/ic_show_chart_black_24dp"
-        android:title="@string/title_statistics" />
 
     <item
         android:id="@+id/navigation_settings"
