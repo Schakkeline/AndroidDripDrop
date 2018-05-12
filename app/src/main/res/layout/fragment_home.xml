@@ -5,15 +5,67 @@
     tools:context="com.buchmaier.jacqueline.mamiwata.HomeFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_home_fragment" />
+        android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:text="Fragment Home" />
+        <TextView
+            android:id="@+id/hello_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/hello_home_fragment" />
+
+        <TextView
+            android:id="@+id/textYourBodyNeeds"
+            style="@android:style/TextAppearance.Medium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="98dp"
+            android:text="@string/home_h1"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
+
+        <TextView
+            android:id="@+id/text_home_percent"
+            style="@android:style/TextAppearance.Large"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="45dp"
+            android:text="@string/home_percent"
+            android:layout_below="@+id/textYourBodyNeeds"
+            android:layout_centerHorizontal="true" />
+
+        <TextView
+            android:id="@+id/textView4"
+            style="@android:style/TextAppearance.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="11dp"
+            android:text="@string/home_h2"
+            android:layout_below="@+id/text_home_percent"
+            android:layout_centerHorizontal="true" />
+
+        <Button
+            android:id="@+id/button_addDrink"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="138dp"
+            android:text="Add Drink"
+            android:textColor="@color/colorPrimary"/>
+
+        <TextView
+            android:id="@+id/textView5"
+            style="@android:style/TextAppearance.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="62dp"
+            android:text="@string/home_h3"
+            android:layout_alignTop="@+id/button_addDrink"
+            android:layout_centerHorizontal="true" />
+
+
+    </RelativeLayout>
 
 </FrameLayout>
