@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "1052392973403",
+    "firebase_url": "https://mamiwata-fe798.firebaseio.com",
+    "project_id": "mamiwata-fe798",
+    "storage_bucket": "mamiwata-fe798.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1052392973403:android:22b74165c8706794",
+        "android_client_info": {
+          "package_name": "com.buchmaier.jacqueline.mamiwata"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1052392973403-af3ms3f1o69jgjsuf8jk7t78tocb8ndg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDpurGHeSQ2zaI1NG2faGOBJ2dO04BU-V4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
