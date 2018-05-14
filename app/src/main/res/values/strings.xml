@@ -15,6 +15,13 @@
     <string name="home_h2">0,0 from 0 liter</string>
     <string name="home_h3">Reach your goal or donate</string>
 
+    <!-- Bottom Sheet Fragment -->
+    <string name="drink1">100 ml</string>
+    <string name="drink2">250 ml</string>
+    <string name="drink3">330 ml</string>
+    <string name="drink4">500 ml</string>
+    <string name="drink5">1000 ml</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
