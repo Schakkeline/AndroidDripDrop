@@ -53,7 +53,8 @@
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="138dp"
             android:text="Add Drink"
-            android:textColor="@color/colorPrimary"/>
+            android:textColor="@color/colorPrimary"
+            android:onClick="addWater"/>
 
         <TextView
             android:id="@+id/textView5"
@@ -64,7 +65,6 @@
             android:text="@string/home_h3"
             android:layout_alignTop="@+id/button_addDrink"
             android:layout_centerHorizontal="true" />
-
 
     </RelativeLayout>
 
