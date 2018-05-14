@@ -12,9 +12,8 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
+    // Text Dummy - TODO: Delete after testing
     private TextView mTextMessage;
-
-
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -52,12 +51,18 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        // Bottom Navigation
+        BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-        mTextMessage = (TextView) findViewById(R.id.message);
+        // Display fragment on start - if you dont do this, you need to tap on the navigation
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        HomeFragment selectedFragment1 = new HomeFragment();
+        transaction.replace(R.id.content, selectedFragment1);
+        transaction.commit();
+
+        // Test-Text - TODO: Delete after testing
+        mTextMessage = findViewById(R.id.message);
     }
-
-
 
 }
