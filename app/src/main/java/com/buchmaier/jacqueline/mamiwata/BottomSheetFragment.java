@@ -59,43 +59,34 @@ public class BottomSheetFragment extends BottomSheetDialogFragment implements On
 
     @Override
     public void onClick(View v) {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("message");
 
         switch (v.getId()) {
             case R.id.firstML:
                 Log.d(TAG, "Button 100ml clicked");
                 // Write a message to the database
-                FirebaseDatabase database = FirebaseDatabase.getInstance();
-                DatabaseReference myRef = database.getReference("message");
-
-                myRef.setValue("Hello, World!");
-                // Read from the database
-                myRef.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        // This method is called once with the initial value and again
-                        // whenever data at this location is updated.
-                        String value = dataSnapshot.getValue(String.class);
-                        Log.d(TAG, "Value is: " + value);
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError error) {
-                        // Failed to read value
-                        Log.w(TAG, "Failed to read value.", error.toException());
-                    }
-                });
+                myRef.setValue("100");
                 break;
             case R.id.secondML:
                 Log.d(TAG, "Button 250ml clicked");
+                // Write a message to the database
+                myRef.setValue("250");
                 break;
             case R.id.thirdML:
                 Log.d(TAG, "Button 330ml clicked");
+                // Write a message to the database
+                myRef.setValue("330");
                 break;
             case R.id.fourthML:
                 Log.d(TAG, "Button 500ml clicked");
+                // Write a message to the database
+                myRef.setValue("500");
                 break;
             case R.id.fifthML:
                 Log.d(TAG, "Button 1000ml clicked");
+                // Write a message to the database
+                myRef.setValue("1000");
                 break;
         }
     }
