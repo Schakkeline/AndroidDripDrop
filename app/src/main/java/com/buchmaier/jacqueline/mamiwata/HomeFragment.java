@@ -23,7 +23,6 @@ public class HomeFragment extends Fragment implements OnClickListener{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        //return inflater.inflate(R.layout.fragment_home, container, false);
         View v = inflater.inflate(R.layout.fragment_home, container, false);
 
         Button b = v.findViewById(R.id.button_addDrink);
