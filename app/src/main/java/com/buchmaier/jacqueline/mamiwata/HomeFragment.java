@@ -31,7 +31,15 @@ public class HomeFragment extends Fragment implements OnClickListener{
 
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_home, container, false);
+
+        // Percent of water the user drank today
         final TextView yourWater = v.findViewById(R.id.text_home_percent);
+
+        // How much did the user drink
+        final TextView userLiterCurrent = v.findViewById(R.id.userLiterCurrent);
+
+        // Drink Goal from user
+        //final TextView userLiterGoal = v.findViewById(R.id.userLiterGoal);
 
         // open BottomSheet onClick
         Button b = v.findViewById(R.id.button_addDrink);
@@ -48,7 +56,8 @@ public class HomeFragment extends Fragment implements OnClickListener{
                 // whenever data at this location is updated.
                 Integer value = dataSnapshot.getValue(Integer.class);
                 yourWater.setText(String.valueOf(value));
-                Log.d(TAG, "Value is: " + value);
+                userLiterCurrent.setText(String.valueOf(value));
+                //userLiterGoal.setText(String.valueOf(value));
             }
 
             @Override
