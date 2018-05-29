@@ -33,6 +33,7 @@ public class HomeFragment extends Fragment implements OnClickListener{
         View v = inflater.inflate(R.layout.fragment_home, container, false);
         final TextView yourWater = v.findViewById(R.id.text_home_percent);
 
+        // open BottomSheet onClick
         Button b = v.findViewById(R.id.button_addDrink);
         b.setOnClickListener(this);
 
@@ -45,8 +46,8 @@ public class HomeFragment extends Fragment implements OnClickListener{
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
-                String value = dataSnapshot.getValue(String.class);
-                yourWater.setText(value);
+                Integer value = dataSnapshot.getValue(Integer.class);
+                yourWater.setText(String.valueOf(value));
                 Log.d(TAG, "Value is: " + value);
             }
 
