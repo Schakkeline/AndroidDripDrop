@@ -10,12 +10,6 @@
         android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/hello_fragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/hello_home_fragment" />
-
-        <TextView
             android:id="@+id/textYourBodyNeeds"
             style="@android:style/TextAppearance.Medium"
             android:layout_width="wrap_content"

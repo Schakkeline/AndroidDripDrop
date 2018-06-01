@@ -5,9 +5,163 @@
     tools:context=".SettingsFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_settings_fragment" />
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/helloSettings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="10dp"
+            android:text="@string/hello_settings_fragment"
+            android:textColor="@color/colorAccent" />
+
+        <TextView
+            android:id="@+id/genderText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignTop="@+id/helloSettings"
+            android:layout_marginTop="40dp"
+            android:text="Gender"
+            android:textAppearance="@android:style/TextAppearance.Material.Medium" />
+
+        <Spinner
+            android:id="@+id/genderUser"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/genderText"
+            android:layout_toEndOf="@+id/genderText"
+            android:textAlignment="viewEnd" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorAccent"
+            android:layout_below="@+id/genderUser"
+            android:id="@+id/view1"
+            android:layout_marginTop="10dp"/>
+
+        <EditText
+            android:id="@+id/weightUser"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="4"
+            android:inputType="numberDecimal"
+            android:textAlignment="textEnd"
+            android:layout_below="@+id/genderUser"
+            android:layout_toStartOf="@+id/textKG"
+            android:layout_marginTop="16dp" />
+
+        <TextView
+            android:id="@+id/weight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignTop="@+id/weightUser"
+            android:layout_marginTop="10dp"
+            android:text="Weight"
+            android:textAppearance="@android:style/TextAppearance.Material.Medium" />
+
+        <TextView
+            android:id="@+id/textKG"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="kg"
+            android:layout_alignBottom="@+id/weight"
+            android:layout_alignParentEnd="true" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/weightUser"
+            android:background="@color/colorAccent"
+            android:id="@+id/view2" />
+
+        <Switch
+            android:id="@+id/sportUser"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@+id/view2"
+            android:text="Sport"
+            android:layout_toEndOf="@+id/weight"
+            android:textAppearance="@android:style/TextAppearance.Material.Medium"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="10dp"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/sportUser"
+            android:background="@color/colorAccent"
+            android:id="@+id/view3"
+            android:layout_marginTop="10dp"/>
+
+        <TextView
+            android:id="@+id/textDrinkMe"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:text="@string/drinkMe"
+            android:textAlignment="center" />
+
+        <SeekBar
+            android:id="@+id/seekBarWater"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textDrinkMe"
+            android:layout_marginTop="15dp"
+            android:layout_alignParentStart="true"
+            android:max="4000"
+            android:layout_toStartOf="@+id/weightUser" />
+
+        <TextView
+            android:id="@+id/textSeekbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@+id/seekBarWater"
+            android:layout_toEndOf="@+id/seekBarWater"
+            android:text="TextView"
+            android:textAlignment="textEnd" />
+
+        <TextView
+            android:id="@+id/notificationsSettings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/notification_settings"
+            android:textColor="@color/colorAccent"
+            android:layout_below="@+id/seekBarWater"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="20dp" />
+
+        <Switch
+            android:id="@+id/notification_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignTop="@+id/notificationsSettings"
+            android:layout_marginTop="40dp"
+            android:checked="true"
+            android:text="Notifications"
+            android:textAppearance="@android:style/TextAppearance.Material.Medium" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/notification_switch"
+            android:background="@color/colorAccent"
+            android:id="@+id/view4"
+            android:layout_marginTop="10dp"/>
+
+
+    </RelativeLayout>
 
 </FrameLayout>
