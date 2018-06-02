@@ -13,12 +13,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.ArrayAdapter;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -31,8 +33,12 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
     private SeekBar seekBar;
     private TextView textView;
 
+    Switch sport;
+
     Boolean sporti;
     int progress;
+
+    Switch notifications;
     Boolean notis;
 
     // Weight
@@ -50,6 +56,8 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
     DatabaseReference db = database.getReference("settings");
     DatabaseReference dbWeight = database.getReference("settings").child("weight");
     DatabaseReference dbGender = database.getReference("settings").child("gender");
+    DatabaseReference dbSport = database.getReference("settings").child("sport");
+    DatabaseReference dbNotifications = database.getReference("settings").child("notifications");
 
     public SettingsFragment() {
         // Required empty public constructor
@@ -95,11 +103,6 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
         });
 
 
-        // Switch Sport
-        Switch sport = v.findViewById(R.id.sportUser);
-        sporti = sport.isChecked();
-        Log.d("Switch Sport", "Value: " + sporti);
-
         // SeekBar Water
         seekBar = v.findViewById(R.id.seekBarWater);
         textView = v.findViewById(R.id.textSeekbar);
@@ -124,9 +127,14 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
         });
 
         // Switch Notifications
-        Switch notifications = v.findViewById(R.id.notification_switch);
-        notis = notifications.isChecked();
-        Log.d("Switch Notifications", "Value: " + notis);
+        notifications = v.findViewById(R.id.notification_switch);
+        // Default is set to true
+        dbNotifications.setValue(true);
+
+        // Switch Sport
+        sport = v.findViewById(R.id.sportUser);
+        // Default is set to false
+        dbSport.setValue(false);
 
         db.addValueEventListener(new ValueEventListener() {
             @Override
@@ -140,6 +148,32 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
                 ArrayAdapter myAdap = (ArrayAdapter) spinnerGender.getAdapter(); //cast to an ArrayAdapter
                 int spinnerPosition = myAdap.getPosition(value2);
                 spinnerGender.setSelection(spinnerPosition);
+
+                // Set Notis switch from database - default is true
+                notifications.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                        if(b){
+                            dbNotifications.setValue(true);
+                        }
+                        else {
+                            dbNotifications.setValue(false);
+                        }
+                    }
+                });
+
+                // Set Sport switch from database - default is false
+                sport.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                        if(b){
+                            dbSport.setValue(true);
+                        }
+                        else {
+                            dbSport.setValue(false);
+                        }
+                    }
+                });
 
             }
 
