@@ -30,14 +30,20 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
 
     private SeekBar seekBar;
     private TextView textView;
-    
+
     Boolean sporti;
     int progress;
     Boolean notis;
 
+    // Weight
     public EditText weight;
     Integer userInputWeight;
+
+    // Gender
     Object gender;
+    String userInputGender;
+    Spinner spinnerGender;
+    ArrayAdapter<String> adapter;
 
     // Read from the database
     FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -57,8 +63,8 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
 
         // Spinner Gender
         String [] valuesGender = {"Female","Male",};
-        Spinner spinnerGender = v.findViewById(R.id.genderUser);
-        ArrayAdapter<String> adapter = new ArrayAdapter(this.getActivity(), android.R.layout.simple_spinner_item, valuesGender);
+        spinnerGender = v.findViewById(R.id.genderUser);
+        adapter = new ArrayAdapter(this.getActivity(), android.R.layout.simple_spinner_item, valuesGender);
         adapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
         spinnerGender.setAdapter(adapter);
         spinnerGender.setOnItemSelectedListener(this);
@@ -125,11 +131,16 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
         db.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                // This method is called once with the initial value and again
-                // whenever data at this location is updated.
+                // Get Weight from Database
                 Integer value = dataSnapshot.child("weight").getValue(Integer.class);
-                String value2 = dataSnapshot.child("gender").getValue(String.class);
                 weight.setText(String.valueOf(value));
+
+                // Get Gender from Database
+                String value2 = dataSnapshot.child("gender").getValue(String.class);
+                ArrayAdapter myAdap = (ArrayAdapter) spinnerGender.getAdapter(); //cast to an ArrayAdapter
+                int spinnerPosition = myAdap.getPosition(value2);
+                spinnerGender.setSelection(spinnerPosition);
+
             }
 
             @Override
@@ -148,7 +159,11 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
                                int pos, long id) {
         // An item was selected. You can retrieve the selected item using
         gender = parent.getItemAtPosition(pos);
-        Log.d("ADebugTag", "Value: " + gender);
+        userInputGender = gender.toString();
+
+        // Set userGender in database
+        dbGender.setValue(userInputGender);
+        Log.d("ADebugTag", "Value Gender: " + gender);
 
     }
 
