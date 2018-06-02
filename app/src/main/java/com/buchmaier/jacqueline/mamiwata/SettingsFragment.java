@@ -34,28 +34,26 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
     private TextView textView;
 
     Switch sport;
+    Switch notifications;
 
     Boolean sporti;
     int progress;
-
-    Switch notifications;
-    Boolean notis;
 
     // Weight
     public EditText weight;
     Integer userInputWeight;
 
-    // Gender
-    Object gender;
-    String userInputGender;
-    Spinner spinnerGender;
+    // Age
+    Object age;
+    String userInputAge;
+    Spinner spinnerAge;
     ArrayAdapter<String> adapter;
 
     // Read from the database
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference db = database.getReference("settings");
     DatabaseReference dbWeight = database.getReference("settings").child("weight");
-    DatabaseReference dbGender = database.getReference("settings").child("gender");
+    DatabaseReference dbAge = database.getReference("settings").child("age");
     DatabaseReference dbSport = database.getReference("settings").child("sport");
     DatabaseReference dbNotifications = database.getReference("settings").child("notifications");
 
@@ -69,13 +67,13 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
 
         View v = inflater.inflate(R.layout.fragment_settings, container, false);
 
-        // Spinner Gender
-        String [] valuesGender = {"Female","Male",};
-        spinnerGender = v.findViewById(R.id.genderUser);
-        adapter = new ArrayAdapter(this.getActivity(), android.R.layout.simple_spinner_item, valuesGender);
+        // Spinner Age
+        String [] valuesAge = {"under 30 years","between 30 and 55 years","over 55 years",};
+        spinnerAge = v.findViewById(R.id.ageUser);
+        adapter = new ArrayAdapter(this.getActivity(), android.R.layout.simple_spinner_item, valuesAge);
         adapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
-        spinnerGender.setAdapter(adapter);
-        spinnerGender.setOnItemSelectedListener(this);
+        spinnerAge.setAdapter(adapter);
+        spinnerAge.setOnItemSelectedListener(this);
 
         // EditText Weight
         weight   = v.findViewById(R.id.weightUser);
@@ -144,10 +142,10 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
                 weight.setText(String.valueOf(value));
 
                 // Get Gender from Database
-                String value2 = dataSnapshot.child("gender").getValue(String.class);
-                ArrayAdapter myAdap = (ArrayAdapter) spinnerGender.getAdapter(); //cast to an ArrayAdapter
+                String value2 = dataSnapshot.child("age").getValue(String.class);
+                ArrayAdapter myAdap = (ArrayAdapter) spinnerAge.getAdapter(); //cast to an ArrayAdapter
                 int spinnerPosition = myAdap.getPosition(value2);
-                spinnerGender.setSelection(spinnerPosition);
+                spinnerAge.setSelection(spinnerPosition);
 
                 // Set Notis switch from database - default is true
                 notifications.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -192,12 +190,12 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
     public void onItemSelected(AdapterView<?> parent, View view,
                                int pos, long id) {
         // An item was selected. You can retrieve the selected item using
-        gender = parent.getItemAtPosition(pos);
-        userInputGender = gender.toString();
+        age = parent.getItemAtPosition(pos);
+        userInputAge = age.toString();
 
         // Set userGender in database
-        dbGender.setValue(userInputGender);
-        Log.d("ADebugTag", "Value Gender: " + gender);
+        dbAge.setValue(userInputAge);
+        Log.d("ADebugTag", "Value Gender: " + age);
 
     }
 

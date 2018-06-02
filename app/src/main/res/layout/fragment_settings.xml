@@ -20,28 +20,28 @@
             android:textColor="@color/colorAccent" />
 
         <TextView
-            android:id="@+id/genderText"
+            android:id="@+id/ageText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignTop="@+id/helloSettings"
             android:layout_marginTop="40dp"
-            android:text="Gender"
+            android:text="Age"
             android:textAppearance="@android:style/TextAppearance.Material.Medium" />
 
         <Spinner
-            android:id="@+id/genderUser"
+            android:id="@+id/ageUser"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/genderText"
-            android:layout_toEndOf="@+id/genderText"
+            android:layout_alignTop="@+id/ageText"
+            android:layout_toEndOf="@+id/ageText"
             android:textAlignment="viewEnd" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/colorAccent"
-            android:layout_below="@+id/genderUser"
+            android:layout_below="@+id/ageUser"
             android:id="@+id/view1"
             android:layout_marginTop="10dp"/>
 
@@ -52,7 +52,7 @@
             android:ems="4"
             android:inputType="numberDecimal"
             android:textAlignment="textEnd"
-            android:layout_below="@+id/genderUser"
+            android:layout_below="@+id/ageUser"
             android:layout_toStartOf="@+id/textKG"
             android:layout_marginTop="16dp" />
 
