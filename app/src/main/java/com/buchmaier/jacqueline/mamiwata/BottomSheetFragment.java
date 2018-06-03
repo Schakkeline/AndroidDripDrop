@@ -29,8 +29,6 @@ public class BottomSheetFragment extends BottomSheetDialogFragment implements On
 
     Integer addDrink;
 
-    private static final String TAG = "BottomSheetFragment: ";
-
     public BottomSheetFragment() {
         // Required empty public constructor
     }
