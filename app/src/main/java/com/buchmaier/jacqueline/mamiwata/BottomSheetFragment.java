@@ -27,6 +27,8 @@ public class BottomSheetFragment extends BottomSheetDialogFragment implements On
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference myRef = database.getReference("settings").child("currentWater");
 
+    Integer addDrink;
+
     private static final String TAG = "BottomSheetFragment: ";
 
     public BottomSheetFragment() {
@@ -66,95 +68,37 @@ public class BottomSheetFragment extends BottomSheetDialogFragment implements On
     @Override
     public void onClick(View v) {
 
-        // TODO: Duplicate code - clean up
         switch (v.getId()) {
             case R.id.firstML:
-                Log.d(TAG, "Button 100ml clicked");
-                // Write a message to the database
-                // listen for single change
-                myRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        Integer value = dataSnapshot.getValue(Integer.class);
-                        myRef.setValue(value + 100);
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                        // throw an error if setValue() is rejected
-                        throw databaseError.toException();
-                    }
-                });
+                addDrink = 100;
                 break;
             case R.id.secondML:
-                Log.d(TAG, "Button 250ml clicked");
-                // Write a message to the database
-                myRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        Integer value = dataSnapshot.getValue(Integer.class);
-                        myRef.setValue(value + 250);
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                        // throw an error if setValue() is rejected
-                        throw databaseError.toException();
-                    }
-                });
+                addDrink = 250;
                 break;
             case R.id.thirdML:
-                Log.d(TAG, "Button 330ml clicked");
-                // Write a message to the database
-                myRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        Integer value = dataSnapshot.getValue(Integer.class);
-                        myRef.setValue(value + 330);
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                        // throw an error if setValue() is rejected
-                        throw databaseError.toException();
-                    }
-                });
+                addDrink = 330;
                 break;
             case R.id.fourthML:
-                Log.d(TAG, "Button 500ml clicked");
-                // Write a message to the database
-                myRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        Integer value = dataSnapshot.getValue(Integer.class);
-                        myRef.setValue(value + 500);
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                        // throw an error if setValue() is rejected
-                        throw databaseError.toException();
-                    }
-                });
+                addDrink = 500;
                 break;
             case R.id.fifthML:
-                Log.d(TAG, "Button 1000ml clicked");
-                // Write a message to the database
-                myRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        Integer value = dataSnapshot.getValue(Integer.class);
-                        myRef.setValue(value + 1000);
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                        // throw an error if setValue() is rejected
-                        throw databaseError.toException();
-                    }
-                });
+                addDrink = 1000;
                 break;
         }
+
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Integer value = dataSnapshot.getValue(Integer.class);
+                myRef.setValue(value + addDrink);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // throw an error if setValue() is rejected
+                throw databaseError.toException();
+            }
+        });
 
     }
 
