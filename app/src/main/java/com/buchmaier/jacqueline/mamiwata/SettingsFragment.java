@@ -142,7 +142,7 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
         notifications = v.findViewById(R.id.notification_switch);
         // Default is set to true TODO: remove after testing and Database setup
         // dbNotifications.setValue(true);
-        
+
         // Set Notis switch from database - default is true
         notifications.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -158,6 +158,9 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
 
         // Switch Sport
         sport = v.findViewById(R.id.sportUser);
+        // Default is set to false TODO: remove after testing and Database setup
+        // dbSport.setValue(false);
+
         sport.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
@@ -202,7 +205,7 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
                 sporti = dataSnapshot.child("sport").getValue(Boolean.class);
                 sport.setChecked(sporti);
 
-                // Set Sport switch from database - and add extra water if necessary
+                // Set Notification switch from database - and do nothing TODO: add notification logic
                 notis = dataSnapshot.child("notifications").getValue(Boolean.class);
                 notifications.setChecked(notis);
 

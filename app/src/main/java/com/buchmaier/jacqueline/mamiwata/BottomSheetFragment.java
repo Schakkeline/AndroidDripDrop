@@ -24,6 +24,9 @@ import com.google.firebase.database.MutableData;
 
 public class BottomSheetFragment extends BottomSheetDialogFragment implements OnClickListener{
 
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference myRef = database.getReference("settings").child("currentWater");
+
     private static final String TAG = "BottomSheetFragment: ";
 
     public BottomSheetFragment() {
@@ -62,8 +65,6 @@ public class BottomSheetFragment extends BottomSheetDialogFragment implements On
 
     @Override
     public void onClick(View v) {
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        final DatabaseReference myRef = database.getReference("message");
 
         // TODO: Duplicate code - clean up
         switch (v.getId()) {

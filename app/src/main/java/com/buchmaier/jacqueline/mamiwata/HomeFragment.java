@@ -18,6 +18,21 @@ import com.google.firebase.database.ValueEventListener;
 
 public class HomeFragment extends Fragment implements OnClickListener{
 
+    TextView yourWater;
+    TextView userLiterCurrent;
+    TextView userLiterGoal;
+
+    Integer dbUserLiterGoal;
+    Float userLiterGoalLiter;
+
+    Integer dbUserLiterCurrent;
+
+    Float yourWaterPercentFloat;
+    Integer yourWaterPercent;
+
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference db = database.getReference("settings");
+
     private static final String TAG = "Service";
 
     public HomeFragment() {
@@ -33,31 +48,37 @@ public class HomeFragment extends Fragment implements OnClickListener{
         View v = inflater.inflate(R.layout.fragment_home, container, false);
 
         // Percent of water the user drank today
-        final TextView yourWater = v.findViewById(R.id.text_home_percent);
+        yourWater = v.findViewById(R.id.text_home_percent);
 
         // How much did the user drink
-        final TextView userLiterCurrent = v.findViewById(R.id.userLiterCurrent);
+        userLiterCurrent = v.findViewById(R.id.userLiterCurrent);
 
         // Drink Goal from user
-        //final TextView userLiterGoal = v.findViewById(R.id.userLiterGoal);
+        userLiterGoal = v.findViewById(R.id.userLiterGoal);
 
         // open BottomSheet onClick
         Button b = v.findViewById(R.id.button_addDrink);
         b.setOnClickListener(this);
 
-        // Read from the database
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("message");
-
-        myRef.addValueEventListener(new ValueEventListener() {
+        db.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                // This method is called once with the initial value and again
-                // whenever data at this location is updated.
-                Integer value = dataSnapshot.getValue(Integer.class);
-                yourWater.setText(String.valueOf(value));
-                userLiterCurrent.setText(String.valueOf(value));
-                //userLiterGoal.setText(String.valueOf(value));
+
+                // User should drink this amount in liter
+                dbUserLiterGoal = dataSnapshot.child("myWater").getValue(Integer.class);
+                userLiterGoalLiter = (float) dbUserLiterGoal / 1000;
+                userLiterGoal.setText(String.valueOf(" from " + userLiterGoalLiter + " liter"));
+
+                // User drank this amount so far in ml
+                dbUserLiterCurrent = dataSnapshot.child("currentWater").getValue(Integer.class);
+                userLiterCurrent.setText(String.valueOf(dbUserLiterCurrent + "ml"));
+
+                // Percent
+                yourWaterPercentFloat = (float) dbUserLiterCurrent / dbUserLiterGoal *100;
+                yourWaterPercent = Math.round(yourWaterPercentFloat);
+                Log.w(TAG, "yourWaterPercent.: " + yourWaterPercent);
+                yourWater.setText(String.valueOf(yourWaterPercent + " %"));
+
             }
 
             @Override

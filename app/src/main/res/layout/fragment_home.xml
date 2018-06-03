@@ -14,20 +14,20 @@
             style="@android:style/TextAppearance.Medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="98dp"
-            android:text="@string/home_h1"
             android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true" />
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="98dp"
+            android:text="@string/home_h1" />
 
         <TextView
             android:id="@+id/text_home_percent"
             style="@android:style/TextAppearance.Large"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="45dp"
-            android:text="@string/home_percent"
             android:layout_below="@+id/textYourBodyNeeds"
-            android:layout_centerHorizontal="true" />
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="45dp"
+            android:text="@string/home_percent" />
 
         <Button
             android:id="@+id/button_addDrink"
@@ -36,62 +36,41 @@
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="138dp"
+            android:onClick="addWater"
             android:text="Add Drink"
-            android:textColor="@color/colorPrimary"
-            android:onClick="addWater"/>
+            android:textColor="@color/colorPrimary" />
 
         <TextView
             android:id="@+id/textView5"
             style="@android:style/TextAppearance.Small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="62dp"
-            android:text="@string/home_h3"
             android:layout_alignTop="@+id/button_addDrink"
-            android:layout_centerHorizontal="true" />
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="62dp"
+            android:text="@string/home_h3" />
 
         <TextView
             android:id="@+id/userLiterCurrent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/from"
-            android:layout_alignBottom="@+id/from"
             android:text="0"
             android:textAlignment="viewEnd"
             android:textStyle="bold"
-            android:layout_alignStart="@+id/textView5"
-            android:layout_toStartOf="@+id/from" />
-
-        <TextView
-            android:id="@+id/from"
-            style="@android:style/TextAppearance.Small"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/text_home_percent"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="11dp"
-            android:text="ml from "
-            android:textAlignment="textStart" />
+            android:layout_alignBaseline="@+id/userLiterGoal"
+            android:layout_alignBottom="@+id/userLiterGoal"
+            android:layout_toStartOf="@+id/userLiterGoal" />
 
         <TextView
             android:id="@+id/userLiterGoal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/liter"
-            android:layout_toEndOf="@+id/from"
+            android:layout_alignStart="@+id/text_home_percent"
+            android:layout_below="@+id/text_home_percent"
+            android:layout_marginTop="13dp"
             android:text="1,5"
-            android:textAlignment="viewEnd" />
-
-        <TextView
-            android:id="@+id/liter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/from"
-            android:layout_alignBottom="@+id/from"
-            android:text=" liter"
-            android:textAlignment="textStart"
-            android:layout_alignEnd="@+id/textView5"
-            android:layout_toEndOf="@+id/userLiterGoal" />
+            android:textAlignment="viewStart"
+            android:layout_alignEnd="@+id/textYourBodyNeeds" />
 
     </RelativeLayout>
 
