@@ -20,7 +20,6 @@ import android.widget.Spinner;
 import android.widget.ArrayAdapter;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -30,17 +29,23 @@ import com.google.firebase.database.ValueEventListener;
 
 public class SettingsFragment extends Fragment implements AdapterView.OnItemSelectedListener{
 
+    // SeekBar for user input water
     private SeekBar seekBar;
     private TextView textView;
 
+    // Sport switch
     Switch sport;
-    Switch notifications;
-
     Boolean sporti;
+    Float userSport = Float.valueOf(String.valueOf(0));
+
+    // Notification switch
+    Switch notifications;
+    Boolean notis;
+
     int progress;
 
+    // Water the user should drink
     Integer myWater;
-    Integer waterFormula;
 
     // Weight
     public EditText weight;
@@ -52,6 +57,8 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
     String userInputAge;
     Spinner spinnerAge;
     ArrayAdapter<String> adapter;
+    String userAge;
+    Float userAgeSpinner;
 
     // Read from the database
     FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -60,7 +67,6 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
     DatabaseReference dbAge = database.getReference("settings").child("age");
     DatabaseReference dbSport = database.getReference("settings").child("sport");
     DatabaseReference dbMyWater = database.getReference("settings").child("myWater");
-
     DatabaseReference dbNotifications = database.getReference("settings").child("notifications");
 
     public SettingsFragment() {
@@ -134,13 +140,37 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
 
         // Switch Notifications
         notifications = v.findViewById(R.id.notification_switch);
-        // Default is set to true
-        dbNotifications.setValue(true);
+        // Default is set to true TODO: remove after testing and Database setup
+        // dbNotifications.setValue(true);
+        
+        // Set Notis switch from database - default is true
+        notifications.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(b){
+                    dbNotifications.setValue(true);
+                }
+                else {
+                    dbNotifications.setValue(false);
+                }
+            }
+        });
 
         // Switch Sport
         sport = v.findViewById(R.id.sportUser);
-        // Default is set to false
-        dbSport.setValue(false);
+        sport.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(b){
+                    dbSport.setValue(true);
+                    userSport = Float.valueOf(String.valueOf(500));
+                }
+                else {
+                    dbSport.setValue(false);
+                    userSport = Float.valueOf(String.valueOf(0));
+                }
+            }
+        });
 
         db.addValueEventListener(new ValueEventListener() {
             @Override
@@ -150,22 +180,42 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
                 weight.setText(String.valueOf(value));
 
                 // Get Age from Database
-                String value2 = dataSnapshot.child("age").getValue(String.class);
+                userAge = dataSnapshot.child("age").getValue(String.class);
                 ArrayAdapter myAdap = (ArrayAdapter) spinnerAge.getAdapter(); //cast to an ArrayAdapter
-                int spinnerPosition = myAdap.getPosition(value2);
+                int spinnerPosition = myAdap.getPosition(userAge);
                 spinnerAge.setSelection(spinnerPosition);
 
+                // "under 30 years","between 30 and 55 years","over 55 years"
+                switch (userAge) {
+                    case "under 30 years":
+                        userAgeSpinner = Float.valueOf(String.valueOf(40));
+                        break;
+                    case "between 30 and 55 years":
+                        userAgeSpinner = Float.valueOf(String.valueOf(35));
+                        break;
+                    case "over 55 years":
+                        userAgeSpinner = Float.valueOf(String.valueOf(30));
+                        break;
+                }
+
+                // Set Sport switch from database - and add extra water if necessary
+                sporti = dataSnapshot.child("sport").getValue(Boolean.class);
+                sport.setChecked(sporti);
+
+                // Set Sport switch from database - and add extra water if necessary
+                notis = dataSnapshot.child("notifications").getValue(Boolean.class);
+                notifications.setChecked(notis);
 
                 // My Water
                 // Formula: weight * age / 28.3 * 0.03
+                // if sport - add 500ml
                 // age: under 30 -> 40
                 // age: between 30 and 55 -> 35
                 // age: over 55 -> 30
                 Float w = Float.valueOf(String.valueOf(value));
-                Float v = Float.valueOf(String.valueOf(40));
                 Float z = Float.valueOf(String.valueOf(28.3));
                 Float n = Float.valueOf(String.valueOf(0.03));
-                myWater =  Math.round(w * v / z * n * 1000);
+                myWater =  Math.round(w * userAgeSpinner / z * n * 1000 + userSport);
 
                 // Set the Water on screen
                 textView.setText(String.valueOf(myWater + "ml"));
@@ -173,33 +223,6 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
                 dbMyWater.setValue(myWater);
                 // set seekbar
                 seekBar.setProgress(myWater);
-
-
-                // Set Notis switch from database - default is true
-                notifications.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                        if(b){
-                            dbNotifications.setValue(true);
-                        }
-                        else {
-                            dbNotifications.setValue(false);
-                        }
-                    }
-                });
-
-                // Set Sport switch from database - default is false
-                sport.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                        if(b){
-                            dbSport.setValue(true);
-                        }
-                        else {
-                            dbSport.setValue(false);
-                        }
-                    }
-                });
 
             }
 
