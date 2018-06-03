@@ -42,7 +42,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private void sendNotification(RemoteMessage remoteMessage) {
 
-        // TODO: Talk with firebase ;)
+        // Receive message from firebase
         RemoteMessage.Notification notification = remoteMessage.getNotification();
 
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
@@ -68,9 +68,15 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 .setSmallIcon(R.drawable.ic_home_black_24dp)
                 .setTicker("Hearty365")
                 //     .setPriority(Notification.PRIORITY_MAX)
-                .setContentTitle("Drink a glass of water!")
-                .setContentText("Give your body something good today!")
+                .setContentTitle(notification.getTitle())
+                .setContentText(notification.getBody())
                 .setContentInfo("Info");
+
+        // Open MainActivity on click
+        PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
+                new Intent(this, MainActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
+
+        notificationBuilder.setContentIntent(contentIntent);
 
         notificationManager.notify(1, notificationBuilder.build());
 
