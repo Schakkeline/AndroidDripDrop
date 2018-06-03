@@ -39,9 +39,13 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
     Boolean sporti;
     int progress;
 
+    Integer myWater;
+    Integer waterFormula;
+
     // Weight
     public EditText weight;
     Integer userInputWeight;
+    Integer value;
 
     // Age
     Object age;
@@ -55,6 +59,8 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
     DatabaseReference dbWeight = database.getReference("settings").child("weight");
     DatabaseReference dbAge = database.getReference("settings").child("age");
     DatabaseReference dbSport = database.getReference("settings").child("sport");
+    DatabaseReference dbMyWater = database.getReference("settings").child("myWater");
+
     DatabaseReference dbNotifications = database.getReference("settings").child("notifications");
 
     public SettingsFragment() {
@@ -121,6 +127,8 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 textView.setText(seekBar.getProgress() + " ml");
+                // TODO: Set user input from SeekBar as water
+                dbMyWater.setValue(seekBar.getProgress());
             }
         });
 
@@ -138,14 +146,34 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // Get Weight from Database
-                Integer value = dataSnapshot.child("weight").getValue(Integer.class);
+                value = dataSnapshot.child("weight").getValue(Integer.class);
                 weight.setText(String.valueOf(value));
 
-                // Get Gender from Database
+                // Get Age from Database
                 String value2 = dataSnapshot.child("age").getValue(String.class);
                 ArrayAdapter myAdap = (ArrayAdapter) spinnerAge.getAdapter(); //cast to an ArrayAdapter
                 int spinnerPosition = myAdap.getPosition(value2);
                 spinnerAge.setSelection(spinnerPosition);
+
+
+                // My Water
+                // Formula: weight * age / 28.3 * 0.03
+                // age: under 30 -> 40
+                // age: between 30 and 55 -> 35
+                // age: over 55 -> 30
+                Float w = Float.valueOf(String.valueOf(value));
+                Float v = Float.valueOf(String.valueOf(40));
+                Float z = Float.valueOf(String.valueOf(28.3));
+                Float n = Float.valueOf(String.valueOf(0.03));
+                myWater =  Math.round(w * v / z * n * 1000);
+
+                // Set the Water on screen
+                textView.setText(String.valueOf(myWater + "ml"));
+                // save to database
+                dbMyWater.setValue(myWater);
+                // set seekbar
+                seekBar.setProgress(myWater);
+
 
                 // Set Notis switch from database - default is true
                 notifications.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
