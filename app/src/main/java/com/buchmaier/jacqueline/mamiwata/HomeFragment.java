@@ -15,6 +15,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.DecimalFormat;
 
 public class HomeFragment extends Fragment implements OnClickListener{
 
@@ -29,6 +30,8 @@ public class HomeFragment extends Fragment implements OnClickListener{
 
     Float yourWaterPercentFloat;
     Integer yourWaterPercent;
+
+    Integer missingWater;
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference db = database.getReference("settings");
@@ -64,10 +67,14 @@ public class HomeFragment extends Fragment implements OnClickListener{
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
+                // Use only two digits after point for better reading
+                DecimalFormat twoDForm = new DecimalFormat("#.##");
+
                 // User should drink this amount in liter
                 dbUserLiterGoal = dataSnapshot.child("myWater").getValue(Integer.class);
                 userLiterGoalLiter = (float) dbUserLiterGoal / 1000;
-                userLiterGoal.setText(String.valueOf(" from " + userLiterGoalLiter + " liter"));
+                Double userLiterGoalLiterRound = Double.valueOf(twoDForm.format(userLiterGoalLiter));
+                userLiterGoal.setText(String.valueOf(" from " + userLiterGoalLiterRound + " liter"));
 
                 // User drank this amount so far in ml
                 dbUserLiterCurrent = dataSnapshot.child("currentWater").getValue(Integer.class);
@@ -76,8 +83,15 @@ public class HomeFragment extends Fragment implements OnClickListener{
                 // Percent
                 yourWaterPercentFloat = (float) dbUserLiterCurrent / dbUserLiterGoal *100;
                 yourWaterPercent = Math.round(yourWaterPercentFloat);
-                Log.w(TAG, "yourWaterPercent.: " + yourWaterPercent);
                 yourWater.setText(String.valueOf(yourWaterPercent + " %"));
+
+                // Formula for Donation
+                // TODO: Only calculate if not reset to zero from user
+                missingWater = dbUserLiterGoal - dbUserLiterCurrent;
+                Float x = (float)Math.round(missingWater ) / 10000;
+                Double roundetMissingWater = Double.valueOf(twoDForm.format(x));
+                DatabaseReference dbMyDonation = database.getReference("settings").child("myDonation");
+                dbMyDonation.setValue(roundetMissingWater);
 
             }
 

@@ -21,6 +21,10 @@
     <string name="drink4">500 ml</string>
     <string name="drink5">1000 ml</string>
 
+    <!-- Donations Fragment -->
+    <string name="donations_title">Water Works - UNICEF</string>
+    <string name="donations_content">Every child has a right to safe water, as deadly pathogens often lurk in polluted water. So that more wells can be built and tanks filled, we need your support - thank you!</string>
+
     <!-- Settings Fragment -->
     <string name="hello_settings_fragment">About me</string>
     <string name="drinkMe">You should drink this amount of water, but if you want, you can change that number!</string>
