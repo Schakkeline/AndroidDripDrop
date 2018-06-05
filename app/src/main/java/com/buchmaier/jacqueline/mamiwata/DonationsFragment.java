@@ -23,6 +23,9 @@ public class DonationsFragment extends Fragment {
     private TextView textViewDonations;
     Float valueMyDonations;
 
+    // Donate button
+    Button donate;
+
     // Read from the database
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference db = database.getReference("settings");
@@ -39,6 +42,7 @@ public class DonationsFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_donations, container, false);
 
+
         // Get data from database
         textViewDonations = v.findViewById(R.id.donations);
         db.addValueEventListener(new ValueEventListener() {
@@ -46,7 +50,14 @@ public class DonationsFragment extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // Get Donations from Database
                 valueMyDonations = dataSnapshot.child("myDonation").getValue(Float.class);
-                textViewDonations.setText(String.valueOf(valueMyDonations + "$  today"));
+                if (valueMyDonations > 0){
+                    textViewDonations.setText(String.valueOf(valueMyDonations + "$  today"));
+                } else {
+                    textViewDonations.setText(String.valueOf("You reached your Goal!"));
+                    donate.setEnabled(false);
+
+                }
+
             }
 
             @Override
@@ -58,7 +69,7 @@ public class DonationsFragment extends Fragment {
 
         // Donate Button - reset Donations to zero
         // TODO: Nice to have -> real donations
-        Button donate = v.findViewById(R.id.donate);
+        donate = v.findViewById(R.id.donate);
         donate.setOnClickListener( new View.OnClickListener() {
 
             @Override

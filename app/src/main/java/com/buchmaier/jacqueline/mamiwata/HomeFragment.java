@@ -100,8 +100,12 @@ public class HomeFragment extends Fragment implements OnClickListener{
 
                 // reachGoalOrDonate TextView
                 valueMyDonations = dataSnapshot.child("myDonation").getValue(Float.class);
-                reachGoalOrDonate.setText(String.valueOf("Reach your goal or donate " + valueMyDonations +"$"));
-                
+                if (valueMyDonations > 0){
+                    reachGoalOrDonate.setText(String.valueOf("Reach your goal or donate " + valueMyDonations +"$"));
+                } else {
+                    reachGoalOrDonate.setText(String.valueOf("Great! You reached your goal today!"));
+                }
+
             }
 
             @Override
