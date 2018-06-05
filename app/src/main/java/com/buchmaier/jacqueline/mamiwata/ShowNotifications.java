@@ -1,48 +1,26 @@
 package com.buchmaier.jacqueline.mamiwata;
-import com.google.firebase.messaging.FirebaseMessagingService;
-import com.google.firebase.messaging.RemoteMessage;
 
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.support.v4.app.NotificationCompat;
 import android.app.PendingIntent;
+import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.media.RingtoneManager;
-import android.net.Uri;
 import android.os.Build;
-import android.util.Log;
-
+import android.os.IBinder;
+import android.support.v4.app.NotificationCompat;
 
 /**
- * Created by jacqueline on 14.05.18.
+ * Created by jacqueline on 05.06.18.
  */
 
-public class MyFirebaseMessagingService extends FirebaseMessagingService {
-    private static final String TAG = "FCM Service";
+public class ShowNotifications extends Service {
 
     @Override
-    public void onMessageReceived(RemoteMessage remoteMessage) {
-        // TODO: Handle FCM messages here.
-        // If the application is in the foreground handle both data and notification messages here.
-        // Also if you intend on generating your own notifications as a result of a received FCM
-        // message, here is where that should be initiated.
-        Log.d(TAG, "From: " + remoteMessage.getFrom());
-        Log.d(TAG, "Notification Message Body: " + remoteMessage.getNotification().getBody());
-        if (remoteMessage.getNotification().getBody() != null) {
-            Log.e("FIREBASE", "Message Notification Body: " + remoteMessage.getNotification().getBody());
-            sendNotification(remoteMessage);
-        }
-    }
-
-
-    private void sendNotification(RemoteMessage remoteMessage) {
-
-        // Receive message from firebase
-        RemoteMessage.Notification notification = remoteMessage.getNotification();
+    public void onCreate() {
+        super.onCreate();
 
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         String NOTIFICATION_CHANNEL_ID = "my_channel_id_01";
@@ -66,9 +44,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 .setWhen(System.currentTimeMillis())
                 .setSmallIcon(R.drawable.ic_home_black_24dp)
                 .setTicker("Hearty365")
-                //     .setPriority(Notification.PRIORITY_MAX)
-                .setContentTitle(notification.getTitle())
-                .setContentText(notification.getBody())
+                .setContentTitle("Drink more water")
+                .setContentText("Stay healthy - drink a glass of water")
                 .setContentInfo("Info");
 
         // Open MainActivity on click
@@ -81,5 +58,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     }
 
-
+    @Override
+    public IBinder onBind(Intent intent) {
+        // TODO Auto-generated method stub
+        return null;
+    }
 }
