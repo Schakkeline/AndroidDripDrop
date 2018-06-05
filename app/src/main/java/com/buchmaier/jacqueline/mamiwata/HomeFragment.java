@@ -22,6 +22,7 @@ public class HomeFragment extends Fragment implements OnClickListener{
     TextView yourWater;
     TextView userLiterCurrent;
     TextView userLiterGoal;
+    TextView reachGoalOrDonate;
 
     Integer dbUserLiterGoal;
     Float userLiterGoalLiter;
@@ -32,6 +33,7 @@ public class HomeFragment extends Fragment implements OnClickListener{
     Integer yourWaterPercent;
 
     Integer missingWater;
+    Float valueMyDonations;
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference db = database.getReference("settings");
@@ -58,6 +60,9 @@ public class HomeFragment extends Fragment implements OnClickListener{
 
         // Drink Goal from user
         userLiterGoal = v.findViewById(R.id.userLiterGoal);
+
+        // reachGoalOrDonate
+        reachGoalOrDonate = v.findViewById(R.id.reachGoalOrDonate);
 
         // open BottomSheet onClick
         Button b = v.findViewById(R.id.button_addDrink);
@@ -93,6 +98,10 @@ public class HomeFragment extends Fragment implements OnClickListener{
                 DatabaseReference dbMyDonation = database.getReference("settings").child("myDonation");
                 dbMyDonation.setValue(roundetMissingWater);
 
+                // reachGoalOrDonate TextView
+                valueMyDonations = dataSnapshot.child("myDonation").getValue(Float.class);
+                reachGoalOrDonate.setText(String.valueOf("Reach your goal or donate " + valueMyDonations +"$"));
+                
             }
 
             @Override

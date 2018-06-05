@@ -41,7 +41,7 @@
             android:textColor="@color/colorPrimary" />
 
         <TextView
-            android:id="@+id/textView5"
+            android:id="@+id/reachGoalOrDonate"
             style="@android:style/TextAppearance.Small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
