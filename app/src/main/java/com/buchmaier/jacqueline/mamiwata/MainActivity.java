@@ -1,31 +1,23 @@
 package com.buchmaier.jacqueline.mamiwata;
 
 import android.app.AlarmManager;
-import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.MenuItem;
-import android.widget.TextView;
+import android.widget.Toast;
 
-import com.google.firebase.messaging.RemoteMessage;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
-
-    Intent context;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -71,14 +63,41 @@ public class MainActivity extends AppCompatActivity {
         transaction.replace(R.id.content, selectedFragment1);
         transaction.commit();
 
+
+        /* ****************************** USER TEST ****************************** */
+        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("users");
+
+        // Creating new user node, which returns the unique key value
+        // new user node would be /users/$userid/
+        String userId = mDatabase.push().getKey();
+
+        // creating user object
+        User user = new User("Jacqueline Buchmaier", "foo@bar.info");
+
+        // pushing user to 'users' node using the userId
+        mDatabase.child(userId).setValue(user);
+
+        /* ****************************** USER TEST ****************************** */
+
         // Send drink Water alarm as push notification
-        // TODO: send push only in time frame - user dont want to drink at night ;)
-        Intent notificationIntent = new Intent(this, ShowNotifications.class);
-        PendingIntent contentIntent = PendingIntent.getService(this, 0, notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
-        AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        am.cancel(contentIntent);
-        am.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis()
-                 + AlarmManager.INTERVAL_FIFTEEN_MINUTES, AlarmManager.INTERVAL_FIFTEEN_MINUTES, contentIntent);
+        AlarmManager alarmMgr = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(this, ReminderAlarmManager.class);
+        PendingIntent alarmIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
+
+        // Set the alarm to start at 2:55 a.m.
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        // TODO: Set custom start time
+        calendar.set(Calendar.HOUR_OF_DAY, 2);
+        calendar.set(Calendar.MINUTE, 55);
+
+        // setRepeating() lets you specify a precise custom interval--in this case, 1 minute.
+        //alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 10000, alarmIntent);
+
+        // setRepeating() lets you specify a precise custom interval--in this case, 1 minute.
+        alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_FIFTEEN_MINUTES, alarmIntent);
+
+        Toast.makeText(this, "Alarm Set", Toast.LENGTH_SHORT).show();
 
     }
 
