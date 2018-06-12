@@ -9,15 +9,18 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
+
+    FirebaseAuth.AuthStateListener authListener;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -63,21 +66,30 @@ public class MainActivity extends AppCompatActivity {
         transaction.replace(R.id.content, selectedFragment1);
         transaction.commit();
 
+        //get current user
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        Log.d("FirebaseUser", "User: " + user);
 
-        /* ****************************** USER TEST ****************************** */
-        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("users");
+        if (user == null) {
+            // user auth state is changed - user is null
+            // launch login activity
+            startActivity(new Intent(MainActivity.this, LoginActivity.class));
+            finish();
+        }
 
-        // Creating new user node, which returns the unique key value
-        // new user node would be /users/$userid/
-        String userId = mDatabase.push().getKey();
+        authListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user == null) {
+                    // user auth state is changed - user is null
+                    // launch login activity
+                    startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                    finish();
+                }
 
-        // creating user object
-        User user = new User("Jacqueline Buchmaier", "foo@bar.info");
-
-        // pushing user to 'users' node using the userId
-        mDatabase.child(userId).setValue(user);
-
-        /* ****************************** USER TEST ****************************** */
+            }
+        };
 
         // Send drink Water alarm as push notification
         AlarmManager alarmMgr = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
@@ -91,11 +103,8 @@ public class MainActivity extends AppCompatActivity {
         calendar.set(Calendar.HOUR_OF_DAY, 2);
         calendar.set(Calendar.MINUTE, 55);
 
-        // setRepeating() lets you specify a precise custom interval--in this case, 1 minute.
-        //alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 10000, alarmIntent);
-
-        // setRepeating() lets you specify a precise custom interval--in this case, 1 minute.
-        alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_FIFTEEN_MINUTES, alarmIntent);
+        // setRepeating() lets you specify a precise custom interval--in this case, 1 hour.
+        alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_HOUR, alarmIntent);
 
         Toast.makeText(this, "Alarm Set", Toast.LENGTH_SHORT).show();
 

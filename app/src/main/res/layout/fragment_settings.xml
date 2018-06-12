@@ -161,6 +161,15 @@
             android:id="@+id/view4"
             android:layout_marginTop="10dp"/>
 
+        <Button
+            android:id="@+id/sign_out"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:text="Sign out"
+            android:background="@null"
+            android:textColor="@color/colorPrimary"/>
 
     </RelativeLayout>
 
