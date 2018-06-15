@@ -69,4 +69,11 @@
     <string name="btn_sign_out">Sign Out</string>
     <string name="lbl_forgot_password">Forgot password?</string>
     <string name="forgot_password_msg">We just need your registered Email Id to sent you password reset instructions.</string>
+
+    <!-- Strings related to about -->
+    <string name="title_activity_about">About</string>
+    <string name="made_with_love">Made with love and passion</string>
+    <string name="about_app">Nice that you are there - and nice that you want to do something for yourself and others. Too many people still have no access to clean water. With this app you can do a small part to make that change. The water that you do not drink you can donate - your donation goes 100% to the selected organization.</string>
+    <string name="about_me">My name is Jacqueline and I designed and developed this project as part of my studies "Media Design and Digital Design" at the University of applied sciences Ravensburg-Weingarten.</string>
+
 </resources>
