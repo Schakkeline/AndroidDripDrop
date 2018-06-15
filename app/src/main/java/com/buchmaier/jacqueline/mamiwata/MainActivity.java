@@ -28,8 +28,6 @@ public class MainActivity extends AppCompatActivity {
     FirebaseAuth.AuthStateListener authListener;
     // Read from the database
     FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-    String uid = firebaseUser.getUid();
-    DatabaseReference db = FirebaseDatabase.getInstance().getReference().child("users").child(uid);
 
     // Push Notifications
     Boolean sendNotis;
@@ -100,6 +98,8 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new Intent(MainActivity.this, LoginActivity.class));
             finish();
         } else {
+            String uid = firebaseUser.getUid();
+            DatabaseReference db = FirebaseDatabase.getInstance().getReference().child("users").child(uid);
             // Display fragment on start - if you dont do this, you need to tap on the navigation
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             HomeFragment selectedFragment1 = new HomeFragment();
