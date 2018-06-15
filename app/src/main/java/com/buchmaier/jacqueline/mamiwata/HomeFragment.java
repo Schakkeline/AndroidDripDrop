@@ -1,7 +1,12 @@
 package com.buchmaier.jacqueline.mamiwata;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
+import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,9 +64,6 @@ public class HomeFragment extends Fragment implements OnClickListener{
         // Percent of water the user drank today
         yourWater = v.findViewById(R.id.text_home_percent);
 
-        // How much did the user drink
-        userLiterCurrent = v.findViewById(R.id.userLiterCurrent);
-
         // Drink Goal from user
         userLiterGoal = v.findViewById(R.id.userLiterGoal);
 
@@ -83,21 +85,26 @@ public class HomeFragment extends Fragment implements OnClickListener{
                 dbUserLiterGoal = dataSnapshot.child("myWater").getValue(Integer.class);
                 userLiterGoalLiter = (float) dbUserLiterGoal / 1000;
                 Double userLiterGoalLiterRound = Double.valueOf(twoDForm.format(userLiterGoalLiter));
-                userLiterGoal.setText(String.valueOf(" from " + userLiterGoalLiterRound + " liter"));
 
                 // User drank this amount so far in ml
                 dbUserLiterCurrent = dataSnapshot.child("currentWater").getValue(Integer.class);
-                userLiterCurrent.setText(String.valueOf(dbUserLiterCurrent + "ml"));
+
+                // Set text with bold and normal
+                String normalText = String.valueOf(" from " + userLiterGoalLiterRound + " liter");
+                String boldText = String.valueOf(dbUserLiterCurrent + "ml");
+                SpannableString str = new SpannableString(boldText + normalText);
+                str.setSpan(new StyleSpan(Typeface.BOLD), 0, boldText.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                userLiterGoal.setText(str);
 
                 // Percent
                 yourWaterPercentFloat = (float) dbUserLiterCurrent / dbUserLiterGoal *100;
                 yourWaterPercent = Math.round(yourWaterPercentFloat);
-                yourWater.setText(String.valueOf(yourWaterPercent + " %"));
+                yourWater.setText(String.valueOf(yourWaterPercent + "%"));
 
                 // Formula for Donation
                 // TODO: Only calculate if not reset to zero from user
                 missingWater = dbUserLiterGoal - dbUserLiterCurrent;
-                Float x = (float)Math.round(missingWater ) / 10000;
+                Float x = (float)Math.round(missingWater ) / 1000;
                 Double roundetMissingWater = Double.valueOf(twoDForm.format(x));
                 DatabaseReference dbMyDonation = DataRef.child("myDonation");
                 dbMyDonation.setValue(roundetMissingWater);

@@ -27,7 +27,10 @@
             android:layout_below="@+id/textYourBodyNeeds"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="45dp"
-            android:text="@string/home_percent" />
+            android:text="@string/home_percent"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textColor="@color/colorAccent"
+            android:textSize="80sp" />
 
         <Button
             android:id="@+id/button_addDrink"
@@ -36,9 +39,10 @@
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="138dp"
+            android:background="@color/colorPrimary"
             android:onClick="addWater"
             android:text="Add Drink"
-            android:textColor="@color/colorPrimary" />
+            android:textColor="@android:color/white" />
 
         <TextView
             android:id="@+id/reachGoalOrDonate"
@@ -51,26 +55,14 @@
             android:text="@string/home_h3" />
 
         <TextView
-            android:id="@+id/userLiterCurrent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="0"
-            android:textAlignment="viewEnd"
-            android:textStyle="bold"
-            android:layout_alignBaseline="@+id/userLiterGoal"
-            android:layout_alignBottom="@+id/userLiterGoal"
-            android:layout_toStartOf="@+id/userLiterGoal" />
-
-        <TextView
             android:id="@+id/userLiterGoal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/text_home_percent"
             android:layout_below="@+id/text_home_percent"
-            android:layout_marginTop="13dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="14dp"
             android:text="1,5"
-            android:textAlignment="viewStart"
-            android:layout_alignEnd="@+id/textYourBodyNeeds" />
+            android:textAlignment="center" />
 
     </RelativeLayout>
 
