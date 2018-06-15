@@ -221,7 +221,7 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
                 sporti = dataSnapshot.child("sport").getValue(Boolean.class);
                 sport.setChecked(sporti);
 
-                // Set Notification switch from database - and do nothing TODO: add notification logic
+                // Set Notification switch from database
                 notis = dataSnapshot.child("notifications").getValue(Boolean.class);
                 notifications.setChecked(notis);
 

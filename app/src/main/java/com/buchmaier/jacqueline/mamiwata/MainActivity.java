@@ -31,11 +31,18 @@ public class MainActivity extends AppCompatActivity {
     String uid = firebaseUser.getUid();
     DatabaseReference db = FirebaseDatabase.getInstance().getReference().child("users").child(uid);
 
+    // Push Notifications
     Boolean sendNotis;
     AlarmManager alarmMgr;
     Intent intent;
     PendingIntent alarmIntent;
     Calendar calendar;
+
+    // Reset at midnight
+    AlarmManager alarmMgrReset;
+    Intent intentReset;
+    PendingIntent alarmIntentReset;
+    Calendar calendarReset;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -75,21 +82,14 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-
-
         //get current user
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         Log.d("FirebaseUser", "User: " + user);
 
         if (user != null) {
-            // Name, email address, and profile photo Url
             String email = user.getEmail();
-            Log.d("FirebaseUser", "User Mail: " + email);
-
-            // The user's ID, unique to the Firebase project. Do NOT use this value to
-            // authenticate with your backend server, if you have one. Use
-            // FirebaseUser.getIdToken() instead.
             String uid = user.getUid();
+            Log.d("FirebaseUser", "User Mail: " + email);
             Log.d("FirebaseUser", "User UID: " + uid);
         }
 
@@ -105,6 +105,26 @@ public class MainActivity extends AppCompatActivity {
             HomeFragment selectedFragment1 = new HomeFragment();
             transaction.replace(R.id.content, selectedFragment1);
             transaction.commit();
+
+            // Reset water at midnight
+            alarmMgrReset = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+            intentReset = new Intent(this, ResetWaterService.class);
+            alarmIntentReset = PendingIntent.getBroadcast(this, 0, intentReset, 0);
+            // Set the alarm to start at midnight
+            calendarReset = Calendar.getInstance();
+            calendarReset.setTimeInMillis(System.currentTimeMillis());
+            int curHrReset = calendarReset.get(Calendar.HOUR_OF_DAY);
+
+            // Checking whether current hour is over 24
+            if (curHrReset >= 24)
+            {
+                //setting the date to the next day
+                calendarReset.add(Calendar.DATE, 1);
+            }
+
+            calendarReset.set(Calendar.HOUR_OF_DAY, 23);
+            calendarReset.set(Calendar.MINUTE, 59);
+            alarmMgrReset.setRepeating(AlarmManager.RTC_WAKEUP, calendarReset.getTimeInMillis(), AlarmManager.INTERVAL_DAY, alarmIntentReset);
 
             // Send drink Water alarm as push notification
             alarmMgr = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
@@ -125,8 +145,8 @@ public class MainActivity extends AppCompatActivity {
             }
 
             // TODO: Set custom start time
-            calendar.set(Calendar.HOUR_OF_DAY, 14);
-            calendar.set(Calendar.MINUTE, 54);
+            calendar.set(Calendar.HOUR_OF_DAY, 8);
+            calendar.set(Calendar.MINUTE, 59);
 
             db.addValueEventListener(new ValueEventListener() {
                 @Override
@@ -134,10 +154,8 @@ public class MainActivity extends AppCompatActivity {
                     sendNotis = dataSnapshot.child("notifications").getValue(Boolean.class);
                     if (sendNotis){
                         alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_FIFTEEN_MINUTES, alarmIntent);
-                        Toast.makeText(MainActivity.this, "Notification Set", Toast.LENGTH_SHORT).show();
                     } else {
                         alarmMgr.cancel(alarmIntent);
-                        Toast.makeText(MainActivity.this, "Notification Cancel", Toast.LENGTH_SHORT).show();
                     }
 
                 }
@@ -163,8 +181,6 @@ public class MainActivity extends AppCompatActivity {
 
             }
         };
-
-
 
     }
 
