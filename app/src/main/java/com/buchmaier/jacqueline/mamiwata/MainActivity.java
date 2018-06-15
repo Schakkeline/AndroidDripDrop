@@ -26,8 +26,16 @@ import java.util.Calendar;
 public class MainActivity extends AppCompatActivity {
 
     FirebaseAuth.AuthStateListener authListener;
-    private DatabaseReference mFirebaseDatabase;
-    private FirebaseDatabase mFirebaseInstance;
+    // Read from the database
+    FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+    String uid = firebaseUser.getUid();
+    DatabaseReference db = FirebaseDatabase.getInstance().getReference().child("users").child(uid);
+
+    Boolean sendNotis;
+    AlarmManager alarmMgr;
+    Intent intent;
+    PendingIntent alarmIntent;
+    Calendar calendar;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -99,21 +107,46 @@ public class MainActivity extends AppCompatActivity {
             transaction.commit();
 
             // Send drink Water alarm as push notification
-            AlarmManager alarmMgr = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
-            Intent intent = new Intent(this, ReminderAlarmManager.class);
-            PendingIntent alarmIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
+            alarmMgr = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+            intent = new Intent(this, ReminderAlarmManager.class);
+            alarmIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
 
             // Set the alarm to start at 2:55 a.m.
-            Calendar calendar = Calendar.getInstance();
+            calendar = Calendar.getInstance();
             calendar.setTimeInMillis(System.currentTimeMillis());
+            // TODO: Set custom end time
+            int curHr = calendar.get(Calendar.HOUR_OF_DAY);
+
+            // Checking whether current hour is over 20
+            if (curHr >= 20)
+            {
+                //setting the date to the next day
+                calendar.add(Calendar.DATE, 1);
+            }
+
             // TODO: Set custom start time
-            calendar.set(Calendar.HOUR_OF_DAY, 2);
-            calendar.set(Calendar.MINUTE, 55);
+            calendar.set(Calendar.HOUR_OF_DAY, 14);
+            calendar.set(Calendar.MINUTE, 54);
 
-            // setRepeating() lets you specify a precise custom interval--in this case, 1 hour.
-            alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_HOUR, alarmIntent);
+            db.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    sendNotis = dataSnapshot.child("notifications").getValue(Boolean.class);
+                    if (sendNotis){
+                        alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_FIFTEEN_MINUTES, alarmIntent);
+                        Toast.makeText(MainActivity.this, "Notification Set", Toast.LENGTH_SHORT).show();
+                    } else {
+                        alarmMgr.cancel(alarmIntent);
+                        Toast.makeText(MainActivity.this, "Notification Cancel", Toast.LENGTH_SHORT).show();
+                    }
 
-            Toast.makeText(this, "Alarm Set", Toast.LENGTH_SHORT).show();
+                }
+                @Override
+                public void onCancelled(DatabaseError error) {
+                    // Failed to read value
+                    Log.w("Error", "Failed to read value.", error.toException());
+                }
+            });
 
         }
 

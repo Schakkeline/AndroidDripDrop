@@ -21,14 +21,3 @@ public class User {
         this.email = email;
     }
 }
-
-/*
-age: String
-currentWater: int
-gender: String
-myDonation: float
-myWater: int
-notifications: boolean
-sport: boolean
-weight: float
-*/
