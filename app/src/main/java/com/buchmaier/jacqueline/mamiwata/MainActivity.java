@@ -15,12 +15,19 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
 
     FirebaseAuth.AuthStateListener authListener;
+    private DatabaseReference mFirebaseDatabase;
+    private FirebaseDatabase mFirebaseInstance;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -69,6 +76,19 @@ public class MainActivity extends AppCompatActivity {
         //get current user
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         Log.d("FirebaseUser", "User: " + user);
+
+        if (user != null) {
+            // Name, email address, and profile photo Url
+            String email = user.getEmail();
+            Log.d("FirebaseUser", "User Mail: " + email);
+
+            // The user's ID, unique to the Firebase project. Do NOT use this value to
+            // authenticate with your backend server, if you have one. Use
+            // FirebaseUser.getIdToken() instead.
+            String uid = user.getUid();
+            Log.d("FirebaseUser", "User UID: " + uid);
+        }
+
 
         if (user == null) {
             // user auth state is changed - user is null

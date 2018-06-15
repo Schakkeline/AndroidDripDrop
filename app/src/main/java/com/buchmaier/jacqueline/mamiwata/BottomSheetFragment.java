@@ -12,6 +12,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.util.Log;
 import android.view.View.OnClickListener;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
@@ -24,8 +27,10 @@ import com.google.firebase.database.MutableData;
 
 public class BottomSheetFragment extends BottomSheetDialogFragment implements OnClickListener{
 
-    FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference myRef = database.getReference("settings").child("currentWater");
+    FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+    String uid = firebaseUser.getUid();
+    DatabaseReference DataRef = FirebaseDatabase.getInstance().getReference().child("users").child(uid);
+    DatabaseReference myRef = DataRef.child("currentWater");
 
     Integer addDrink;
 

@@ -68,14 +68,16 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
     Float userAgeSpinner;
 
     // Read from the database
-    FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference db = database.getReference("settings");
-    DatabaseReference dbWeight = database.getReference("settings").child("weight");
-    DatabaseReference dbAge = database.getReference("settings").child("age");
-    DatabaseReference dbSport = database.getReference("settings").child("sport");
-    DatabaseReference dbMyWater = database.getReference("settings").child("myWater");
-    DatabaseReference dbNotifications = database.getReference("settings").child("notifications");
-    FirebaseAuth.AuthStateListener authListener;
+    FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+    String uid = firebaseUser.getUid();
+    DatabaseReference DataRef = FirebaseDatabase.getInstance().getReference().child("users").child(uid);
+
+    DatabaseReference db = DataRef;
+    DatabaseReference dbWeight = DataRef.child("weight");
+    DatabaseReference dbAge = DataRef.child("age");
+    DatabaseReference dbSport = DataRef.child("sport");
+    DatabaseReference dbMyWater = DataRef.child("myWater");
+    DatabaseReference dbNotifications = DataRef.child("notifications");
     FirebaseAuth auth;
     Button signOut;
 

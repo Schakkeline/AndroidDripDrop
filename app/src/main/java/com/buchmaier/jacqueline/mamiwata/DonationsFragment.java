@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -27,9 +29,10 @@ public class DonationsFragment extends Fragment {
     Button donate;
 
     // Read from the database
-    FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference db = database.getReference("settings");
-    DatabaseReference dbMyDonation = database.getReference("settings").child("myDonation");
+    FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+    String uid = firebaseUser.getUid();
+    DatabaseReference db = FirebaseDatabase.getInstance().getReference().child("users").child(uid);
+    DatabaseReference dbMyDonation = db.child("myDonation");
 
     public DonationsFragment() {
         // Required empty public constructor

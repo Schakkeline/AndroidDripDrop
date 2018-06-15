@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -96,8 +97,18 @@ public class SignupActivity extends AppCompatActivity {
                                     Toast.makeText(SignupActivity.this, "Authentication failed." + task.getException(),
                                             Toast.LENGTH_SHORT).show();
                                 } else {
-                                    userId = mFirebaseDatabase.push().getKey();
-                                    mFirebaseDatabase.child(userId).child("email").setValue(email);
+                                    // User UID is used for user database key
+                                    // Setup user data for first use
+                                    String uid = auth.getUid();
+                                    mFirebaseDatabase.child(uid).child("email").setValue(email);
+                                    mFirebaseDatabase.child(uid).child("age").setValue("under 30 years");
+                                    mFirebaseDatabase.child(uid).child("currentWater").setValue(0);
+                                    mFirebaseDatabase.child(uid).child("gender").setValue("Female");
+                                    mFirebaseDatabase.child(uid).child("myDonation").setValue(0);
+                                    mFirebaseDatabase.child(uid).child("myWater").setValue(0);
+                                    mFirebaseDatabase.child(uid).child("notifications").setValue(true);
+                                    mFirebaseDatabase.child(uid).child("sport").setValue(false);
+                                    mFirebaseDatabase.child(uid).child("weight").setValue(50);
                                     startActivity(new Intent(SignupActivity.this, MainActivity.class));
                                     finish();
                                 }

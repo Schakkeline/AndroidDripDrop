@@ -9,6 +9,9 @@ import android.widget.Button;
 import android.view.View.OnClickListener;
 import android.util.Log;
 import android.widget.TextView;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -35,8 +38,9 @@ public class HomeFragment extends Fragment implements OnClickListener{
     Integer missingWater;
     Float valueMyDonations;
 
-    FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference db = database.getReference("settings");
+    FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+    String uid = firebaseUser.getUid();
+    DatabaseReference DataRef = FirebaseDatabase.getInstance().getReference().child("users").child(uid);
 
     private static final String TAG = "Service";
 
@@ -68,7 +72,7 @@ public class HomeFragment extends Fragment implements OnClickListener{
         Button b = v.findViewById(R.id.button_addDrink);
         b.setOnClickListener(this);
 
-        db.addValueEventListener(new ValueEventListener() {
+        DataRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
@@ -95,7 +99,7 @@ public class HomeFragment extends Fragment implements OnClickListener{
                 missingWater = dbUserLiterGoal - dbUserLiterCurrent;
                 Float x = (float)Math.round(missingWater ) / 10000;
                 Double roundetMissingWater = Double.valueOf(twoDForm.format(x));
-                DatabaseReference dbMyDonation = database.getReference("settings").child("myDonation");
+                DatabaseReference dbMyDonation = DataRef.child("myDonation");
                 dbMyDonation.setValue(roundetMissingWater);
 
                 // reachGoalOrDonate TextView
