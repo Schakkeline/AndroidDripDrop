@@ -80,6 +80,7 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
     DatabaseReference dbNotifications = DataRef.child("notifications");
     FirebaseAuth auth;
     Button signOut;
+    Button about;
 
     public SettingsFragment() {
         // Required empty public constructor
@@ -94,6 +95,9 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
         // Sign out
         auth = FirebaseAuth.getInstance();
         signOut = v.findViewById(R.id.sign_out);
+
+        // About
+        about = v.findViewById(R.id.about);
 
         // Spinner Age
         String [] valuesAge = {"under 30 years","between 30 and 55 years","over 55 years",};
@@ -259,6 +263,13 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
             }
         });
 
+        about.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(), About.class));
+            }
+        });
+
 
         return v;
     }
@@ -282,9 +293,8 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
 
     //sign out method
     public void signOut() {
-        startActivity(new Intent(getContext(), About.class));
-        //startActivity(new Intent(getContext(), LoginActivity.class));
-        //auth.signOut();
+        startActivity(new Intent(getContext(), LoginActivity.class));
+        auth.signOut();
     }
 
 
