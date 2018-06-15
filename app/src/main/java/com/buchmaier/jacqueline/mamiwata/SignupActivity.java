@@ -26,8 +26,6 @@ public class SignupActivity extends AppCompatActivity {
 
     private DatabaseReference mFirebaseDatabase;
     private FirebaseDatabase mFirebaseInstance;
-    private String userId;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

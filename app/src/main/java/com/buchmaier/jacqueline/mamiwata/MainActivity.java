@@ -67,11 +67,7 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-        // Display fragment on start - if you dont do this, you need to tap on the navigation
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        HomeFragment selectedFragment1 = new HomeFragment();
-        transaction.replace(R.id.content, selectedFragment1);
-        transaction.commit();
+
 
         //get current user
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -95,6 +91,30 @@ public class MainActivity extends AppCompatActivity {
             // launch login activity
             startActivity(new Intent(MainActivity.this, LoginActivity.class));
             finish();
+        } else {
+            // Display fragment on start - if you dont do this, you need to tap on the navigation
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            HomeFragment selectedFragment1 = new HomeFragment();
+            transaction.replace(R.id.content, selectedFragment1);
+            transaction.commit();
+
+            // Send drink Water alarm as push notification
+            AlarmManager alarmMgr = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+            Intent intent = new Intent(this, ReminderAlarmManager.class);
+            PendingIntent alarmIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
+
+            // Set the alarm to start at 2:55 a.m.
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTimeInMillis(System.currentTimeMillis());
+            // TODO: Set custom start time
+            calendar.set(Calendar.HOUR_OF_DAY, 2);
+            calendar.set(Calendar.MINUTE, 55);
+
+            // setRepeating() lets you specify a precise custom interval--in this case, 1 hour.
+            alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_HOUR, alarmIntent);
+
+            Toast.makeText(this, "Alarm Set", Toast.LENGTH_SHORT).show();
+
         }
 
         authListener = new FirebaseAuth.AuthStateListener() {
@@ -111,22 +131,7 @@ public class MainActivity extends AppCompatActivity {
             }
         };
 
-        // Send drink Water alarm as push notification
-        AlarmManager alarmMgr = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(this, ReminderAlarmManager.class);
-        PendingIntent alarmIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
 
-        // Set the alarm to start at 2:55 a.m.
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(System.currentTimeMillis());
-        // TODO: Set custom start time
-        calendar.set(Calendar.HOUR_OF_DAY, 2);
-        calendar.set(Calendar.MINUTE, 55);
-
-        // setRepeating() lets you specify a precise custom interval--in this case, 1 hour.
-        alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_HOUR, alarmIntent);
-
-        Toast.makeText(this, "Alarm Set", Toast.LENGTH_SHORT).show();
 
     }
 

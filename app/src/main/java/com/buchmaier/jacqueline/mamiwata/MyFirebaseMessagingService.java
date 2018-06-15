@@ -64,9 +64,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         notificationBuilder.setAutoCancel(true)
                 .setDefaults(Notification.DEFAULT_ALL)
                 .setWhen(System.currentTimeMillis())
-                .setSmallIcon(R.drawable.ic_home_black_24dp)
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setColor(Color.rgb(61, 81, 181))
                 .setTicker("Hearty365")
-                //     .setPriority(Notification.PRIORITY_MAX)
                 .setContentTitle(notification.getTitle())
                 .setContentText(notification.getBody())
                 .setContentInfo("Info");

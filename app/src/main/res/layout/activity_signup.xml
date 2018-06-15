@@ -15,11 +15,11 @@
 
 
         <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="160dp"
+            android:layout_height="160dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="30dp"
-            android:src="@mipmap/ic_launcher" />
+            android:src="@drawable/web_hi_res_512" />
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
