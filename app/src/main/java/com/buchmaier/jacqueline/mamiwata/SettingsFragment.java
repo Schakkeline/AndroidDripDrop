@@ -293,8 +293,8 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
 
     //sign out method
     public void signOut() {
-        startActivity(new Intent(getContext(), LoginActivity.class));
         auth.signOut();
+        startActivity(new Intent(getContext(), LoginActivity.class));
     }
 
 

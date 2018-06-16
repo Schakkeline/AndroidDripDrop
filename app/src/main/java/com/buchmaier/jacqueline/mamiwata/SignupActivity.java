@@ -48,7 +48,7 @@ public class SignupActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // TODO: Reset Password
-                //startActivity(new Intent(SignupActivity.this, ResetPasswordActivity.class));
+                startActivity(new Intent(SignupActivity.this, ResetPasswordActivity.class));
             }
         });
 
