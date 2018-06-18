@@ -47,7 +47,6 @@ public class SignupActivity extends AppCompatActivity {
         btnResetPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: Reset Password
                 startActivity(new Intent(SignupActivity.this, ResetPasswordActivity.class));
             }
         });
@@ -87,7 +86,6 @@ public class SignupActivity extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 Toast.makeText(SignupActivity.this, "Welcome :)", Toast.LENGTH_SHORT).show();
-                                //progressBar.setVisibility(View.GONE);
                                 // If sign in fails, display a message to the user. If sign in succeeds
                                 // the auth state listener will be notified and logic to handle the
                                 // signed in user can be handled in the listener.
@@ -101,7 +99,6 @@ public class SignupActivity extends AppCompatActivity {
                                     mFirebaseDatabase.child(uid).child("email").setValue(email);
                                     mFirebaseDatabase.child(uid).child("age").setValue("under 30 years");
                                     mFirebaseDatabase.child(uid).child("currentWater").setValue(0);
-                                    mFirebaseDatabase.child(uid).child("gender").setValue("Female");
                                     mFirebaseDatabase.child(uid).child("myDonation").setValue(0);
                                     mFirebaseDatabase.child(uid).child("myWater").setValue(0);
                                     mFirebaseDatabase.child(uid).child("notifications").setValue(true);
