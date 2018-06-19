@@ -116,8 +116,7 @@ public class MainActivity extends AppCompatActivity {
             int curHrReset = calendarReset.get(Calendar.HOUR_OF_DAY);
 
             // Checking whether current hour is over 24
-            if (curHrReset >= 24)
-            {
+            if (curHrReset < 24) {
                 //setting the date to the next day
                 calendarReset.add(Calendar.DATE, 1);
             }
@@ -138,8 +137,7 @@ public class MainActivity extends AppCompatActivity {
             int curHr = calendar.get(Calendar.HOUR_OF_DAY);
 
             // Checking whether current hour is over 20
-            if (curHr >= 20)
-            {
+            if (curHr >= 20) {
                 //setting the date to the next day
                 calendar.add(Calendar.DATE, 1);
             }

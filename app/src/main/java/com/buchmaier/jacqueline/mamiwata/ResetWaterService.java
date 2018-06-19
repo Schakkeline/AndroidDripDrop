@@ -32,6 +32,7 @@ public class ResetWaterService extends BroadcastReceiver {
 
         Log.d("ResetWaterService", "Broadcasr onReceive: fired ");
         db.child("currentWater").setValue(0);
+        db.child("DonatedToday").setValue(false);
 
     }
 

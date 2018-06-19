@@ -12,16 +12,35 @@ import android.os.Build;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 
+import java.util.Calendar;
+
 /**
  * Created by jacqueline on 05.06.18.
  */
 
 public class ShowNotifications extends Service {
+    Calendar cal;
 
     @Override
     public void onCreate() {
         super.onCreate();
 
+        cal = Calendar.getInstance();
+        int curHrReset = cal.get(Calendar.HOUR_OF_DAY);
+
+        // Checking whether current hour is over 9 and under 20
+        if (curHrReset > 9 || curHrReset < 20) {
+            sendPushNotification();
+        }
+    }
+
+    @Override
+    public IBinder onBind(Intent intent) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    private void sendPushNotification() {
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         String NOTIFICATION_CHANNEL_ID = "my_channel_id_01";
 
@@ -57,11 +76,5 @@ public class ShowNotifications extends Service {
 
         notificationManager.notify(1, notificationBuilder.build());
 
-    }
-
-    @Override
-    public IBinder onBind(Intent intent) {
-        // TODO Auto-generated method stub
-        return null;
     }
 }

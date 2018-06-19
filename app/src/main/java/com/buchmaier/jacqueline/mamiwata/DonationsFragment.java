@@ -23,7 +23,9 @@ public class DonationsFragment extends Fragment {
 
     // Donation
     private TextView textViewDonations;
-    Float valueMyDonations;
+
+    Float valueDailyDonation;
+    Boolean valueDonatedToday;
 
     // Donate button
     Button donate;
@@ -32,7 +34,11 @@ public class DonationsFragment extends Fragment {
     FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
     String uid = firebaseUser.getUid();
     DatabaseReference db = FirebaseDatabase.getInstance().getReference().child("users").child(uid);
-    DatabaseReference dbMyDonation = db.child("myDonation");
+    DatabaseReference dbDonatedToday = db.child("DonatedToday");
+
+    DatabaseReference dbDailyDonation = db.child("DailyDonation");
+    Integer valueUserLiterGoal;
+    Integer valueUserLiterCurrent;
 
     public DonationsFragment() {
         // Required empty public constructor
@@ -52,15 +58,21 @@ public class DonationsFragment extends Fragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // Get Donations from Database
-                valueMyDonations = dataSnapshot.child("myDonation").getValue(Float.class);
-                if (valueMyDonations > 0){
-                    textViewDonations.setText(String.valueOf(valueMyDonations + "$  today"));
+                valueDailyDonation = dataSnapshot.child("DailyDonation").getValue(Float.class);
+                valueDonatedToday = dataSnapshot.child("DonatedToday").getValue(Boolean.class);
+
+                valueUserLiterCurrent = dataSnapshot.child("currentWater").getValue(Integer.class);
+                valueUserLiterGoal = dataSnapshot.child("myWater").getValue(Integer.class);
+
+                // reachGoalOrDonate TextView
+                if (valueUserLiterCurrent < valueUserLiterGoal){
+                    textViewDonations.setText(String.valueOf(valueDailyDonation + "$  today"));
                 } else {
-                    textViewDonations.setText(String.valueOf("You reached your Goal!"));
-                    donate.setEnabled(false);
-
-                }
-
+                    textViewDonations.setText(String.valueOf("Great! You reached your goal today!"));
+                    donate.setEnabled(false);                }
+                if (valueDonatedToday && valueUserLiterCurrent < valueUserLiterGoal){
+                    textViewDonations.setText(String.valueOf("Thanks, but don't forget to drink!"));
+                    donate.setEnabled(false);                }
             }
 
             @Override
@@ -77,8 +89,9 @@ public class DonationsFragment extends Fragment {
 
             @Override
             public void onClick(View v) {
-                // TODO: This is not working - because i always calculate onDataChange
-                dbMyDonation.setValue(0);
+                // Donated today = true, daily donation to zero and fullDonation to zero
+                dbDonatedToday.setValue(true);
+                dbDailyDonation.setValue(0);
             }
         });
 

@@ -28,7 +28,6 @@ import java.text.DecimalFormat;
 public class HomeFragment extends Fragment implements OnClickListener{
 
     TextView yourWater;
-    TextView userLiterCurrent;
     TextView userLiterGoal;
     TextView reachGoalOrDonate;
 
@@ -41,11 +40,17 @@ public class HomeFragment extends Fragment implements OnClickListener{
     Integer yourWaterPercent;
 
     Integer missingWater;
-    Float valueMyDonations;
+
+    Float valueDailyDonation;
+
+    Boolean valueDonatedToday;
 
     FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
     String uid = firebaseUser.getUid();
     DatabaseReference DataRef = FirebaseDatabase.getInstance().getReference().child("users").child(uid);
+
+    DatabaseReference dbDailyDonation = DataRef.child("DailyDonation");
+
 
     private static final String TAG = "Service";
 
@@ -102,19 +107,26 @@ public class HomeFragment extends Fragment implements OnClickListener{
                 yourWater.setText(String.valueOf(yourWaterPercent + "%"));
 
                 // Formula for Donation
-                // TODO: Only calculate if not reset to zero from user
-                missingWater = dbUserLiterGoal - dbUserLiterCurrent;
-                Float x = (float)Math.round(missingWater ) / 1000;
-                Double roundetMissingWater = Double.valueOf(twoDForm.format(x));
-                DatabaseReference dbMyDonation = DataRef.child("myDonation");
-                dbMyDonation.setValue(roundetMissingWater);
+                valueDonatedToday = dataSnapshot.child("DonatedToday").getValue(Boolean.class);
+                if (!valueDonatedToday) {
+                    missingWater = dbUserLiterGoal - dbUserLiterCurrent;
+                    Float x = (float)Math.round(missingWater ) / 1000;
+                    Double roundetMissingWater = Double.valueOf(twoDForm.format(x));
+
+                    dbDailyDonation = DataRef.child("DailyDonation");
+                    dbDailyDonation.setValue(roundetMissingWater);
+                }
+
+                valueDailyDonation = dataSnapshot.child("DailyDonation").getValue(Float.class);
 
                 // reachGoalOrDonate TextView
-                valueMyDonations = dataSnapshot.child("myDonation").getValue(Float.class);
-                if (valueMyDonations > 0){
-                    reachGoalOrDonate.setText(String.valueOf("Reach your goal or donate " + valueMyDonations +"$"));
+                if (dbUserLiterCurrent < dbUserLiterGoal){
+                    reachGoalOrDonate.setText(String.valueOf("Reach your goal or donate " + valueDailyDonation +"$"));
                 } else {
                     reachGoalOrDonate.setText(String.valueOf("Great! You reached your goal today!"));
+                }
+                if (valueDonatedToday && dbUserLiterCurrent < dbUserLiterGoal){
+                    reachGoalOrDonate.setText(String.valueOf("You donated today, but don't forget to drink!"));
                 }
 
             }

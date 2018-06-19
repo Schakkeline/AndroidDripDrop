@@ -29,8 +29,8 @@ public class BottomSheetFragment extends BottomSheetDialogFragment implements On
 
     FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
     String uid = firebaseUser.getUid();
-    DatabaseReference DataRef = FirebaseDatabase.getInstance().getReference().child("users").child(uid);
-    DatabaseReference myRef = DataRef.child("currentWater");
+    DatabaseReference db = FirebaseDatabase.getInstance().getReference().child("users").child(uid);
+    DatabaseReference dbCurrentWater = db.child("currentWater");
 
     Integer addDrink;
 
@@ -89,11 +89,11 @@ public class BottomSheetFragment extends BottomSheetDialogFragment implements On
                 break;
         }
 
-        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        db.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Integer value = dataSnapshot.getValue(Integer.class);
-                myRef.setValue(value + addDrink);
+                Integer valueCurrentWater = dataSnapshot.child("currentWater").getValue(Integer.class);
+                dbCurrentWater.setValue(valueCurrentWater + addDrink);
             }
 
             @Override
