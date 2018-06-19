@@ -2,6 +2,7 @@ package com.buchmaier.jacqueline.mamiwata;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -93,14 +94,23 @@ public class SignupActivity extends AppCompatActivity {
                                     Toast.makeText(SignupActivity.this, "Authentication failed :(",
                                             Toast.LENGTH_SHORT).show();
                                 } else {
+                                    // Set dummy data for myWater with dummy user data
+                                    Float w = Float.valueOf(String.valueOf(50.0));
+                                    Float z = Float.valueOf(String.valueOf(28.3));
+                                    Float n = Float.valueOf(String.valueOf(0.03));
+                                    Float t = Float.valueOf(String.valueOf(1000.0));
+                                    Float u = Float.valueOf(String.valueOf(40.0));
+                                    Integer myWater =  Math.round(w * u / z * n * t);
+
                                     // User UID is used for user database key
                                     // Setup user data for first use
                                     String uid = auth.getUid();
                                     mFirebaseDatabase.child(uid).child("email").setValue(email);
                                     mFirebaseDatabase.child(uid).child("age").setValue("under 30 years");
                                     mFirebaseDatabase.child(uid).child("currentWater").setValue(0);
-                                    mFirebaseDatabase.child(uid).child("myDonation").setValue(0);
-                                    mFirebaseDatabase.child(uid).child("myWater").setValue(0);
+                                    mFirebaseDatabase.child(uid).child("DailyDonation").setValue(0);
+                                    mFirebaseDatabase.child(uid).child("DonatedToday").setValue(false);
+                                    mFirebaseDatabase.child(uid).child("myWater").setValue(myWater);
                                     mFirebaseDatabase.child(uid).child("notifications").setValue(true);
                                     mFirebaseDatabase.child(uid).child("sport").setValue(false);
                                     mFirebaseDatabase.child(uid).child("weight").setValue(50);
