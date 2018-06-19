@@ -1,15 +1,8 @@
 package com.buchmaier.jacqueline.mamiwata;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -70,14 +63,13 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
     // Read from the database
     FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
     String uid = firebaseUser.getUid();
-    DatabaseReference DataRef = FirebaseDatabase.getInstance().getReference().child("users").child(uid);
+    DatabaseReference db = FirebaseDatabase.getInstance().getReference().child("users").child(uid);
 
-    DatabaseReference db = DataRef;
-    DatabaseReference dbWeight = DataRef.child("weight");
-    DatabaseReference dbAge = DataRef.child("age");
-    DatabaseReference dbSport = DataRef.child("sport");
-    DatabaseReference dbMyWater = DataRef.child("myWater");
-    DatabaseReference dbNotifications = DataRef.child("notifications");
+    DatabaseReference dbWeight = db.child("weight");
+    DatabaseReference dbAge = db.child("age");
+    DatabaseReference dbSport = db.child("sport");
+    DatabaseReference dbMyWater = db.child("myWater");
+    DatabaseReference dbNotifications = db.child("notifications");
     FirebaseAuth auth;
     Button signOut;
     Button about;
@@ -113,7 +105,6 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    Log.d("EditText Weight bal", "Value: " + v.getEditableText().toString());
                     userInputWeight = Integer.parseInt(v.getText().toString());
                     dbWeight.addValueEventListener(new ValueEventListener() {
                         @Override
@@ -160,9 +151,6 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
 
         // Switch Notifications
         notifications = v.findViewById(R.id.notification_switch);
-        // Default is set to true TODO: remove after testing and Database setup
-        // dbNotifications.setValue(true);
-
         // Set Notis switch from database - default is true
         notifications.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -178,9 +166,6 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
 
         // Switch Sport
         sport = v.findViewById(R.id.sportUser);
-        // Default is set to false TODO: remove after testing and Database setup
-        // dbSport.setValue(false);
-
         sport.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
@@ -270,7 +255,6 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
             }
         });
 
-
         return v;
     }
 
@@ -283,7 +267,6 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
 
         // Set userGender in database
         dbAge.setValue(userInputAge);
-        Log.d("ADebugTag", "Value Gender: " + age);
 
     }
 
@@ -296,6 +279,5 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
         auth.signOut();
         startActivity(new Intent(getContext(), LoginActivity.class));
     }
-
 
 }
