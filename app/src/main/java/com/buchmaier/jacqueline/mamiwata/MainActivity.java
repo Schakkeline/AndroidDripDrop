@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -15,7 +14,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -143,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
             intent = new Intent(this, ReminderAlarmManager.class);
             alarmIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
 
-            // Set the alarm to start at 2:55 a.m.
+            // Set the alarm
             calendar = Calendar.getInstance();
             calendar.setTimeInMillis(System.currentTimeMillis());
             // TODO: Set custom end time
