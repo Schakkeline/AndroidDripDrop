@@ -6,6 +6,7 @@
     <string name="title_settings">Settings</string>
 
     <string name="hello_donations_fragment">Fragment Donations</string>
+    <string name="no_internet_dialog">There is something wrong with your internet connection - please turn on wifi to connect to your data.</string>
 
     <!-- Home Fragment -->
     <string name="hello_home_fragment">Fragment Home</string>

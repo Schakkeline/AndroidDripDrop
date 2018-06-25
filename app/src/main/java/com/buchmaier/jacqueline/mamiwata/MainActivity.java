@@ -3,14 +3,19 @@ package com.buchmaier.jacqueline.mamiwata;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -74,6 +79,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        try {
+            if(isInternetOn()){
+            }else{
+                showInternetDialog();
+            }
+        }catch (Exception e){
+            showInternetDialog();
+        }
 
         // Bottom Navigation
         BottomNavigationView navigation = findViewById(R.id.navigation);
@@ -179,6 +193,43 @@ public class MainActivity extends AppCompatActivity {
             }
         };
 
+    }
+
+    // Check if internet is on
+    public final boolean isInternetOn() {
+
+        // get Connectivity Manager object to check connection
+        ConnectivityManager connec =
+                (ConnectivityManager)getSystemService(getBaseContext().CONNECTIVITY_SERVICE);
+
+        // Check for network connections
+        if ( connec.getActiveNetworkInfo().getState() == android.net.NetworkInfo.State.CONNECTED ||
+                connec.getActiveNetworkInfo().getState() == android.net.NetworkInfo.State.CONNECTING ) {
+
+            // if connected with internet
+            return true;
+
+        } else if (
+                connec.getActiveNetworkInfo().getState() == android.net.NetworkInfo.State.DISCONNECTED ||
+                        connec.getActiveNetworkInfo().getState() == android.net.NetworkInfo.State.DISCONNECTED  ) {
+
+            return false;
+        }
+        return false;
+    }
+
+    // Show dialog message for internet connection needed
+    public void showInternetDialog() {
+        AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
+        alertDialog.setTitle("Oh no!");
+        alertDialog.setMessage(getString(R.string.no_internet_dialog));
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        alertDialog.show();
     }
 
 }
