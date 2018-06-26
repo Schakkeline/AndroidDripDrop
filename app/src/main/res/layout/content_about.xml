@@ -69,12 +69,15 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/website_clickable"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
             android:padding="@dimen/activity_horizontal_margin">
 
             <ImageView
-                android:id="@+id/ivContactItem1"
+                android:id="@+id/website_img"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -83,47 +86,47 @@
                 android:src="@mipmap/ic_launcher" />
 
             <TextView
-                android:id="@+id/tvNumber1"
+                android:id="@+id/website_text1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginStart="@dimen/activity_horizontal_margin"
-                android:layout_toEndOf="@id/ivContactItem1"
-                android:layout_toRightOf="@id/ivContactItem1"
+                android:layout_toEndOf="@id/website_img"
+                android:layout_toRightOf="@id/website_img"
+                android:ellipsize="end"
+                android:maxLines="1"
                 android:text="@string/app_name"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="#212121" />
 
             <TextView
-                android:id="@+id/made_with_love"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/tvNumber1"
+                android:layout_below="@id/website_text1"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginStart="@dimen/activity_horizontal_margin"
-                android:layout_marginTop="4dp"
-                android:layout_toEndOf="@id/ivContactItem1"
-                android:layout_toRightOf="@id/ivContactItem1"
+                android:layout_marginTop="8dp"
+                android:layout_toEndOf="@id/website_img"
+                android:layout_toRightOf="@id/website_img"
                 android:text="@string/made_with_love"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textColor="#727272" />
 
-            <Button
-                android:id="@+id/visitWebsite"
-                style="@style/Widget.AppCompat.Button.Colored"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/made_with_love"
+            <ToggleButton
+                android:id="@+id/website_toggle"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginStart="@dimen/activity_horizontal_margin"
-                android:layout_marginTop="8dp"
-                android:layout_toEndOf="@id/ivContactItem1"
-                android:layout_toRightOf="@id/ivContactItem1"
-                android:text="Visit Website" />
+                android:background="@drawable/ic_chevron_right_black_24dp"
+                android:padding="6dp"
+                android:textOff=""
+                android:textOn="" />
 
         </RelativeLayout>
-
-
 
     </LinearLayout>
 
