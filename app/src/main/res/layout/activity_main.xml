@@ -6,8 +6,6 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
     android:orientation="vertical"
     tools:context="com.buchmaier.jacqueline.mamiwata.MainActivity">
 
@@ -17,7 +15,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1">
-
     </RelativeLayout>
 
     <android.support.design.widget.BottomNavigationView

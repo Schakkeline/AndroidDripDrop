@@ -50,6 +50,8 @@ public class HomeFragment extends Fragment implements OnClickListener{
 
     DatabaseReference dbDailyDonation = DataRef.child("DailyDonation");
 
+    View v;
+
 
     private static final String TAG = "Service";
 
@@ -63,7 +65,9 @@ public class HomeFragment extends Fragment implements OnClickListener{
                              Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_home, container, false);
+        v = inflater.inflate(R.layout.fragment_home, container, false);
+
+
 
         // Percent of water the user drank today
         yourWater = v.findViewById(R.id.text_home_percent);
@@ -104,6 +108,17 @@ public class HomeFragment extends Fragment implements OnClickListener{
                 yourWaterPercentFloat = (float) dbUserLiterCurrent / dbUserLiterGoal *100;
                 yourWaterPercent = Math.round(yourWaterPercentFloat);
                 yourWater.setText(String.valueOf(yourWaterPercent + "%"));
+
+                // Change BG from white to blue with gradient
+                if(yourWaterPercent <= 10){
+                    v.setBackground(getResources().getDrawable(R.drawable.my_gradient_white, null));
+                }else if (yourWaterPercent <= 60) {
+                    v.setBackground(getResources().getDrawable(R.drawable.my_gradient_white_white_blue, null));
+                } else if (yourWaterPercent <= 100) {
+                    v.setBackground(getResources().getDrawable(R.drawable.my_gradient_white_blue_blue, null));
+                }else {
+                    v.setBackground(getResources().getDrawable(R.drawable.my_gradient_blue, null));
+                }
 
                 // Formula for Donation
                 valueDonatedToday = dataSnapshot.child("DonatedToday").getValue(Boolean.class);
