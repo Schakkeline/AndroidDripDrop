@@ -51,9 +51,8 @@
                             android:layout_margin="1dp"
                             android:gravity="center"
                             android:text="0$ today"
-                            android:textAppearance="@android:style/TextAppearance.Material.Display3"
-                            android:textColor="@color/cardview_light_background"
-                            android:textStyle="bold" />
+                            android:textAppearance="@android:style/TextAppearance.Material.Display2"
+                            android:textColor="@color/white" />
                     </RelativeLayout>
 
                     <LinearLayout

@@ -29,7 +29,7 @@ public class ShowNotifications extends Service {
         int curHrReset = cal.get(Calendar.HOUR_OF_DAY);
 
         // Checking whether current hour is over 9 and under 20
-        if (curHrReset > 9 || curHrReset < 20) {
+        if (curHrReset > 8 || curHrReset < 23) {
             sendPushNotification();
         }
     }

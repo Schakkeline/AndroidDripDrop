@@ -5,7 +5,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.drawable.GradientDrawable;
+import android.graphics.Rect;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -14,10 +14,11 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -152,14 +153,14 @@ public class MainActivity extends AppCompatActivity {
             int curHr = calendar.get(Calendar.HOUR_OF_DAY);
 
             // Checking whether current hour is over 20
-            if (curHr >= 20) {
+            if (curHr >= 24) {
                 //setting the date to the next day
                 calendar.add(Calendar.DATE, 1);
             }
 
             // TODO: Set custom start time
-            calendar.set(Calendar.HOUR_OF_DAY, 8);
-            calendar.set(Calendar.MINUTE, 59);
+            calendar.set(Calendar.HOUR_OF_DAY, 21);
+            calendar.set(Calendar.MINUTE, 30);
 
             db.addValueEventListener(new ValueEventListener() {
                 @Override
@@ -232,6 +233,23 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
         alertDialog.show();
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            View v = getCurrentFocus();
+            if ( v instanceof EditText) {
+                Rect outRect = new Rect();
+                v.getGlobalVisibleRect(outRect);
+                if (!outRect.contains((int)event.getRawX(), (int)event.getRawY())) {
+                    v.clearFocus();
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                }
+            }
+        }
+        return super.dispatchTouchEvent(event);
     }
 
 }

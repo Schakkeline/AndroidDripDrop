@@ -74,7 +74,7 @@
     <!-- Strings related to about -->
     <string name="title_activity_about">About</string>
     <string name="made_with_love">Made with love and passion</string>
-    <string name="about_app">Nice that you are there - and nice that you want to do something for yourself and others. Too many people still have no access to clean water. With this app you can do a small part to make that change. The water that you do not drink you can donate - your donation goes 100% to the selected organization.</string>
-    <string name="about_me">My name is Jacqueline and I designed and developed this project as part of my studies "Media Design and Digital Design" at the University of applied sciences Ravensburg-Weingarten.</string>
+    <string name="about_app">Nice that you are here - and welcome to my App! This App reminds you that you should drink enough water during the day - and if you do not comply, it teaches you by donating small amounts of money. This is just a theoretical App - everything is set up but not available as an actual App ... and it is still a work in progress.</string>
+    <string name="about_me">My name is Jacqueline and I designed and developed this project as part of my studies "Digital Media Design" at the University of Applied Sciences Ravensburg-Weingarten. This app concept and development took place in the Android Development course.</string>
 
 </resources>

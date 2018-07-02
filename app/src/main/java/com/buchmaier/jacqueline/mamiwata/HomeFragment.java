@@ -1,5 +1,6 @@
 package com.buchmaier.jacqueline.mamiwata;
 
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -29,6 +30,8 @@ public class HomeFragment extends Fragment implements OnClickListener{
     TextView yourWater;
     TextView userLiterGoal;
     TextView reachGoalOrDonate;
+    Button bAddDrink;
+    TextView textYourBodyNeeds;
 
     Integer dbUserLiterGoal;
     Float userLiterGoalLiter;
@@ -67,8 +70,6 @@ public class HomeFragment extends Fragment implements OnClickListener{
         // Inflate the layout for this fragment
         v = inflater.inflate(R.layout.fragment_home, container, false);
 
-
-
         // Percent of water the user drank today
         yourWater = v.findViewById(R.id.text_home_percent);
 
@@ -78,6 +79,10 @@ public class HomeFragment extends Fragment implements OnClickListener{
         // reachGoalOrDonate
         reachGoalOrDonate = v.findViewById(R.id.reachGoalOrDonate);
 
+        bAddDrink = v.findViewById(R.id.button_addDrink);
+
+        textYourBodyNeeds = v.findViewById(R.id.textYourBodyNeeds);
+
         // open BottomSheet onClick
         Button b = v.findViewById(R.id.button_addDrink);
         b.setOnClickListener(this);
@@ -86,13 +91,18 @@ public class HomeFragment extends Fragment implements OnClickListener{
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
+                if(!isAdded ())
+                    return;
+
                 // Use only two digits after point for better reading
+                // INFO: This works not on device
                 DecimalFormat twoDForm = new DecimalFormat("#.##");
 
                 // User should drink this amount in liter
                 dbUserLiterGoal = dataSnapshot.child("myWater").getValue(Integer.class);
                 userLiterGoalLiter = (float) dbUserLiterGoal / 1000;
-                Double userLiterGoalLiterRound = Double.valueOf(twoDForm.format(userLiterGoalLiter));
+                //Double userLiterGoalLiterRound = Double.valueOf(twoDForm.format(userLiterGoalLiter));
+                Double userLiterGoalLiterRound = Math.floor(userLiterGoalLiter * 100) / 100;
 
                 // User drank this amount so far in ml
                 dbUserLiterCurrent = dataSnapshot.child("currentWater").getValue(Integer.class);
@@ -114,10 +124,22 @@ public class HomeFragment extends Fragment implements OnClickListener{
                     v.setBackground(getResources().getDrawable(R.drawable.my_gradient_white, null));
                 }else if (yourWaterPercent <= 60) {
                     v.setBackground(getResources().getDrawable(R.drawable.my_gradient_white_white_blue, null));
+                    reachGoalOrDonate.setTextColor(Color.parseColor("#ffffff"));
+                    bAddDrink.setTextColor(Color.parseColor("#3f51b5"));
+                    bAddDrink.setBackgroundColor(Color.parseColor("#ffffff"));
                 } else if (yourWaterPercent <= 100) {
                     v.setBackground(getResources().getDrawable(R.drawable.my_gradient_white_blue_blue, null));
+                    reachGoalOrDonate.setTextColor(Color.parseColor("#ffffff"));
+                    userLiterGoal.setTextColor(Color.parseColor("#ffffff"));
+                    bAddDrink.setTextColor(Color.parseColor("#3f51b5"));
+                    bAddDrink.setBackgroundColor(Color.parseColor("#ffffff"));
                 }else {
                     v.setBackground(getResources().getDrawable(R.drawable.my_gradient_blue, null));
+                    reachGoalOrDonate.setTextColor(Color.parseColor("#ffffff"));
+                    userLiterGoal.setTextColor(Color.parseColor("#ffffff"));
+                    bAddDrink.setTextColor(Color.parseColor("#3f51b5"));
+                    bAddDrink.setBackgroundColor(Color.parseColor("#ffffff"));
+                    textYourBodyNeeds.setTextColor(Color.parseColor("#ffffff"));
                 }
 
                 // Formula for Donation
@@ -125,7 +147,9 @@ public class HomeFragment extends Fragment implements OnClickListener{
                 if (!valueDonatedToday) {
                     missingWater = dbUserLiterGoal - dbUserLiterCurrent;
                     Float x = (float)Math.round(missingWater ) / 1000;
-                    Double roundetMissingWater = Double.valueOf(twoDForm.format(x));
+                    // This works not on device
+                    //Double roundetMissingWater = Double.valueOf(twoDForm.format(x));
+                    Double roundetMissingWater = Math.floor(x * 100) / 100;
 
                     dbDailyDonation = DataRef.child("DailyDonation");
                     dbDailyDonation.setValue(roundetMissingWater);
